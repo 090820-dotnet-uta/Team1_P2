@@ -1,0 +1,215 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Tests\\Team1P2.Tests.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj",
+        "projectName": "Team1P2.Models",
+        "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj",
+        "packagesPath": "C:\\Users\\atwal\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\atwal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\Team1P2.Repo.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\Team1P2.Repo.csproj",
+        "projectName": "Team1P2.Repo",
+        "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\Team1P2.Repo.csproj",
+        "packagesPath": "C:\\Users\\atwal\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\atwal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj": {
+                "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Tests\\Team1P2.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Tests\\Team1P2.Tests.csproj",
+        "projectName": "Team1P2.Tests",
+        "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Tests\\Team1P2.Tests.csproj",
+        "packagesPath": "C:\\Users\\atwal\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Tests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\atwal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj": {
+                "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj"
+              },
+              "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\Team1P2.Repo.csproj": {
+                "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\Team1P2.Repo.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.5.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

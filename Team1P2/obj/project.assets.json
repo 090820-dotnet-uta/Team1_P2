@@ -5714,25 +5714,26 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Microsoft.EntityFrameworkCore >= 3.1.8",
       "Microsoft.EntityFrameworkCore.Design >= 3.1.8",
       "Team1P2.Models >= 1.0.0",
       "Team1P2.Repo >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\richa\\.nuget\\packages\\": {}
+    "C:\\Users\\atwal\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2\\Team1P2.csproj",
+      "projectUniqueName": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2\\Team1P2.csproj",
       "projectName": "Team1P2",
-      "projectPath": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2\\Team1P2.csproj",
-      "packagesPath": "C:\\Users\\richa\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2\\obj\\",
+      "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2\\Team1P2.csproj",
+      "packagesPath": "C:\\Users\\atwal\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\richa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\atwal\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5745,11 +5746,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Models\\Team1P2.Models.csproj": {
-              "projectPath": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Models\\Team1P2.Models.csproj"
+            "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj": {
+              "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj"
             },
-            "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Repo\\Team1P2.Repo.csproj": {
-              "projectPath": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Repo\\Team1P2.Repo.csproj"
+            "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\Team1P2.Repo.csproj": {
+              "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\Team1P2.Repo.csproj"
             }
           }
         }
@@ -5763,6 +5764,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[3.1.8, )"
+          },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",

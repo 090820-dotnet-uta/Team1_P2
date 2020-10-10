@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Repo\\Team1P2.Repo.csproj": {}
+    "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\Team1P2.Repo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Models\\Team1P2.Models.csproj": {
+    "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Models\\Team1P2.Models.csproj",
+        "projectUniqueName": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj",
         "projectName": "Team1P2.Models",
-        "projectPath": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Models\\Team1P2.Models.csproj",
-        "packagesPath": "C:\\Users\\richa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Models\\obj\\",
+        "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj",
+        "packagesPath": "C:\\Users\\atwal\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\richa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\atwal\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -56,17 +56,17 @@
         }
       }
     },
-    "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Repo\\Team1P2.Repo.csproj": {
+    "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\Team1P2.Repo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Repo\\Team1P2.Repo.csproj",
+        "projectUniqueName": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\Team1P2.Repo.csproj",
         "projectName": "Team1P2.Repo",
-        "projectPath": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Repo\\Team1P2.Repo.csproj",
-        "packagesPath": "C:\\Users\\richa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Repo\\obj\\",
+        "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\Team1P2.Repo.csproj",
+        "packagesPath": "C:\\Users\\atwal\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Repo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\richa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\atwal\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -79,8 +79,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Models\\Team1P2.Models.csproj": {
-                "projectPath": "C:\\Users\\richa\\OneDrive\\Desktop\\Revature Work\\P2Repo\\Team1P2\\Team1P2.Models\\Team1P2.Models.csproj"
+              "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj": {
+                "projectPath": "C:\\Users\\atwal\\Documents\\Revature\\P2\\Team1_P2\\Team1P2.Models\\Team1P2.Models.csproj"
               }
             }
           }
