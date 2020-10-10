@@ -9,8 +9,8 @@ using Team1P2.Repo.Data;
 namespace Team1P2.Repo.Migrations
 {
     [DbContext(typeof(BlurbDbContext))]
-    [Migration("20201010205358_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201010211826_migration1")]
+    partial class migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

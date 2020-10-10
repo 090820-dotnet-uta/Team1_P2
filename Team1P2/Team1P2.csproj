@@ -18,9 +18,5 @@
     <ProjectReference Include="..\Team1P2.Repo\Team1P2.Repo.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 
 </Project>

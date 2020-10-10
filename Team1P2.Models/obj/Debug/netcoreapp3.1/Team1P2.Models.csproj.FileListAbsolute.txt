@@ -7,3 +7,12 @@ C:\Users\atwal\Documents\Revature\P2\Team1_P2\Team1P2.Models\obj\Debug\netcoreap
 C:\Users\atwal\Documents\Revature\P2\Team1_P2\Team1P2.Models\obj\Debug\netcoreapp3.1\Team1P2.Models.csproj.CoreCompileInputs.cache
 C:\Users\atwal\Documents\Revature\P2\Team1_P2\Team1P2.Models\obj\Debug\netcoreapp3.1\Team1P2.Models.dll
 C:\Users\atwal\Documents\Revature\P2\Team1_P2\Team1P2.Models\obj\Debug\netcoreapp3.1\Team1P2.Models.pdb
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1_P2\Team1P2.Models\bin\Debug\netcoreapp3.1\Team1P2.Models.deps.json
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1_P2\Team1P2.Models\bin\Debug\netcoreapp3.1\Team1P2.Models.dll
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1_P2\Team1P2.Models\bin\Debug\netcoreapp3.1\Team1P2.Models.pdb
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1_P2\Team1P2.Models\obj\Debug\netcoreapp3.1\Team1P2.Models.csprojAssemblyReference.cache
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1_P2\Team1P2.Models\obj\Debug\netcoreapp3.1\Team1P2.Models.AssemblyInfoInputs.cache
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1_P2\Team1P2.Models\obj\Debug\netcoreapp3.1\Team1P2.Models.AssemblyInfo.cs
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1_P2\Team1P2.Models\obj\Debug\netcoreapp3.1\Team1P2.Models.csproj.CoreCompileInputs.cache
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1_P2\Team1P2.Models\obj\Debug\netcoreapp3.1\Team1P2.Models.dll
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1_P2\Team1P2.Models\obj\Debug\netcoreapp3.1\Team1P2.Models.pdb

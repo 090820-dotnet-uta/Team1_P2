@@ -2,7 +2,7 @@
 
 namespace Team1P2.Repo.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class migration1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
