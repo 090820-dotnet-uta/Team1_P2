@@ -1,0 +1,8 @@
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1P2\Team1P2.Repo\bin\Debug\netcoreapp3.1\Team1P2.Repo.deps.json
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1P2\Team1P2.Repo\bin\Debug\netcoreapp3.1\Team1P2.Repo.dll
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1P2\Team1P2.Repo\obj\Debug\netcoreapp3.1\Team1P2.Repo.AssemblyInfoInputs.cache
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1P2\Team1P2.Repo\obj\Debug\netcoreapp3.1\Team1P2.Repo.AssemblyInfo.cs
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1P2\Team1P2.Repo\obj\Debug\netcoreapp3.1\Team1P2.Repo.csprojAssemblyReference.cache
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1P2\Team1P2.Repo\bin\Debug\netcoreapp3.1\Team1P2.Repo.runtimeconfig.json
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1P2\Team1P2.Repo\bin\Debug\netcoreapp3.1\Team1P2.Repo.runtimeconfig.dev.json
+C:\Users\richa\OneDrive\Desktop\Revature Work\P2Repo\Team1P2\Team1P2.Repo\obj\Debug\netcoreapp3.1\Team1P2.Repo.genruntimeconfig.cache
