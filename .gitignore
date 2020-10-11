@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Angular build folders
+# compiled output
+**/dist
+**/tmp
+**/out-tsc
+
 # User-specific files
 *.rsuser
 *.suo
