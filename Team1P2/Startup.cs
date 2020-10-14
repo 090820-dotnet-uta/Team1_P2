@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Team1P2.Middlewares;
 using Team1P2.Repo.Data;
+using Team1P2.Repo.Repository;
 
 namespace Team1P2
 {
@@ -22,6 +23,7 @@ namespace Team1P2
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddControllers();
+      services.AddScoped<Repository>();
       services.AddCors();
       services.AddDbContext<BlurbDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
     }

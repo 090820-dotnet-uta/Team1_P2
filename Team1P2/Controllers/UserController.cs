@@ -22,7 +22,7 @@ namespace Team1P2.Controllers
     [HttpGet("find")]
     public async Task<ActionResult<User>> Find()
     {
-            return await _repository.GetUserAsync(1);
+      return await _repository.GetUserAsync(1);
     }
 
     [Produces("application/json")]
