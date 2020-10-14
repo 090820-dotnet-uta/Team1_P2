@@ -78,10 +78,11 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// </summary>
         /// <param name="context"></param>
         /// <param name="user"></param>
-        public static void AddUserToDb(BlurbDbContext context, User user)
+        public static User AddUserToDb(BlurbDbContext context, User user)
         {
             context.Add(user);
             context.SaveChanges();
+            return context.Users.FirstOrDefault(u => u == user);
         }
 
 
@@ -92,12 +93,13 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="context"></param>
         /// <param name="userId"></param>
         /// <param name="username"></param>
-        public static void EditUsername(BlurbDbContext context, int userId, string username)
+        public static User EditUsername(BlurbDbContext context, int userId, string username)
         {
             var user = context.Users.FirstOrDefault(x => x.UserId == userId);
             user.Username = username;
             context.Update(user);
             context.SaveChanges();
+            return context.Users.FirstOrDefault(u => u == user);
         }
 
 
@@ -107,12 +109,13 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="context"></param>
         /// <param name="userId"></param>
         /// <param name="screenName"></param>
-        public static void EditScreenName(BlurbDbContext context, int userId, string screenName)
+        public static User EditScreenName(BlurbDbContext context, int userId, string screenName)
         {
             var user = context.Users.FirstOrDefault(x => x.UserId == userId);
             user.ScreenName = screenName;
             context.Update(user);
             context.SaveChanges();
+            return context.Users.FirstOrDefault(u => u == user);
         }
 
 
@@ -122,27 +125,29 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="context"></param>
         /// <param name="userId"></param>
         /// <param name="name"></param>
-        public static void EditName(BlurbDbContext context, int userId, string name)
+        public static User EditName(BlurbDbContext context, int userId, string name)
         {
             var user = context.Users.FirstOrDefault(x => x.UserId == userId);
             user.Name = name;
             context.Update(user);
             context.SaveChanges();
+            return context.Users.FirstOrDefault(u => u == user);
         }
 
 
         /// <summary>
-        /// Updates a user's password and saves changes
+        /// Updates a user's password and saves changes. Returns the edited user.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="userId"></param>
         /// <param name="password"></param>
-        public static void EditPassword(BlurbDbContext context, int userId, string password)
+        public static User EditPassword(BlurbDbContext context, int userId, string password)
         {
             var user = context.Users.FirstOrDefault(x => x.UserId == userId);
             user.Password = password;
             context.Update(user);
             context.SaveChanges();
+            return context.Users.FirstOrDefault(u => u == user);
         }
 
 
@@ -151,68 +156,80 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// </summary>
         /// <param name="context"></param>
         /// <param name="blurb"></param>
-        public static void AddBlurbToDb(BlurbDbContext context, Blurb blurb)
+        public static Blurb AddBlurbToDb(BlurbDbContext context, Blurb blurb)
         {
             context.Add(blurb);
             context.SaveChanges();
+            return context.Blurbs.FirstOrDefault(b => b == blurb);
         }
 
 
         /// <summary>
-        /// Deletes a blurb from the db as well as all notes referencing it
+        /// Deletes a blurb from the db as well as all notes referencing it. Returns true upon success.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="blurbId"></param>
-        public static void DeleteBlurb(BlurbDbContext context, int blurbId)
+        public static bool DeleteBlurb(BlurbDbContext context, int blurbId)
         {
-            context.Blurbs.Remove(context.Blurbs.FirstOrDefault(b => b.BlurbId == blurbId)); //Remove the actual blurb
-            context.Notes.RemoveRange(context.Notes.Where(n => n.BlurbId == blurbId));       //Remove all notes that reference it
-            context.SaveChanges();
+            try
+            {
+                context.Blurbs.Remove(context.Blurbs.FirstOrDefault(b => b.BlurbId == blurbId)); //Remove the actual blurb
+                context.Notes.RemoveRange(context.Notes.Where(n => n.BlurbId == blurbId));       //Remove all notes that reference it
+                context.SaveChanges();
+                return true;
+            }
+            catch (InvalidExpressionException e)
+            {
+                return false;
+            }
         }
 
 
         /// <summary>
-        /// Edits the score for a given blurb and saves to db
+        /// Edits the score for a given blurb and saves to db. Returns the edited blurb.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="blurbId"></param>
         /// <param name="newScore"></param>
-        public static void EditBlurbScore(BlurbDbContext context, int blurbId, double newScore)
+        public static Blurb EditBlurbScore(BlurbDbContext context, int blurbId, double newScore)
         {
             var blurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurbId);
             blurb.Score = newScore;
             context.Update(blurb);
             context.SaveChanges();
+            return context.Blurbs.FirstOrDefault(b => b == blurb);
         }
 
 
         /// <summary>
-        /// Edits the privacy setting for a given blurb and saves to db
+        /// Edits the privacy setting for a given blurb and saves to db. Returns the edited blurb.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="blurbId"></param>
         /// <param name="privacy"></param>
-        public static void EditBlurbPrivacy(BlurbDbContext context, int blurbId, Privacy privacy)
+        public static Blurb EditBlurbPrivacy(BlurbDbContext context, int blurbId, Privacy privacy)
         {
             var blurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurbId);
             blurb.Privacy = privacy;
             context.Update(blurb);
             context.SaveChanges();
+            return context.Blurbs.FirstOrDefault(b => b == blurb);
         }
 
 
         /// <summary>
-        /// Edits the blurb message for a given blurb and saves to db
+        /// Edits the blurb message for a given blurb and saves to db. Returns the edited blurb.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="blurbId"></param>
         /// <param name="message"></param>
-        public static void EditBlurbMessage(BlurbDbContext context, int blurbId, string message)
+        public static Blurb EditBlurbMessage(BlurbDbContext context, int blurbId, string message)
         {
             var blurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurbId);
             blurb.Message = message;
             context.Update(blurb);
             context.SaveChanges();
+            return context.Blurbs.FirstOrDefault(b => b == blurb);
         }
 
         /// <summary>
