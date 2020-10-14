@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Team1P2.Models.Models;
-using Team1P2.Repo.Repositories.IRepositories;
+using Team1P2.Repo.Repository;
 
 namespace Team1P2.Controllers
 {
@@ -10,25 +10,25 @@ namespace Team1P2.Controllers
     [ApiController]
     public class BlurbController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly Repository _repository;
 
-        public BlurbController(IUnitOfWork unitOfWork)
+        public BlurbController(Repository repository)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
         }
 
         [Produces("application/json")]
         [HttpGet("find")]
         public async Task<ActionResult<Blurb>> Find()
         {
-            return await _unitOfWork.Blurb.GetAsync(1);
+            return await _repository.GetBlurbAsync(1);
         }
 
         [Produces("application/json")]
         [HttpGet("findall")]
         public async Task<ActionResult<List<Blurb>>> FindAll()
         {
-            return await _unitOfWork.Blurb.GetAllAsync();
+            return await _repository.GetAllBlurbsAsync();
         }
     }
 }

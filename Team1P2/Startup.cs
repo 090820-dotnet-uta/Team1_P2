@@ -6,8 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Team1P2.Middlewares;
 using Team1P2.Repo.Data;
-using Team1P2.Repo.Repositories;
-using Team1P2.Repo.Repositories.IRepositories;
 
 namespace Team1P2
 {
@@ -26,7 +24,6 @@ namespace Team1P2
       services.AddControllers();
       services.AddCors();
       services.AddDbContext<BlurbDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-      services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

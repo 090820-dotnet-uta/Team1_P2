@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Team1P2.Models.Models.Enums;
 using System;
 using Team1P2.Repo.DbManipulationMethods;
+using Team1P2.Repo.Repository;
 
 namespace Team1P2.Tests
 {
@@ -795,7 +796,7 @@ namespace Team1P2.Tests
 
 
         [Fact]
-        public void EditBlurbMessage_GoodInput()
+        public async void EditBlurbMessage_GoodInput()
         {
             var options = new DbContextOptionsBuilder<BlurbDbContext>()
                 .UseInMemoryDatabase(databaseName: "EditBlurbMessage")
@@ -803,14 +804,16 @@ namespace Team1P2.Tests
 
             using (var context = new BlurbDbContext(options))
             {
+                Repository repo = new Repository(context);
+
                 //Arrange
                 User user = new User("skywalker13", "password13");
                 Media media = new Media();
                 Blurb blurb = new Blurb(user, 7.5, media) { Privacy = Privacy.Public };
-                blurb = DbManip.AddBlurbToDb(context, blurb); //Add a new blurb to the db
+                blurb = await repo.AddBlurbToDbAsync(blurb); //Add a new blurb to the db
 
                 //Act
-                blurb = DbManip.EditBlurbMessage(context, blurb.BlurbId, "This is a message");
+                blurb = await repo.EditBlurbMessageAsync(blurb.BlurbId, "This is a message");
                 var resultBlurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurb.BlurbId);
 
                 //Assert
