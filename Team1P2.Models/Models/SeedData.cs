@@ -21,15 +21,15 @@ namespace Team1P2.Models.Models
         Name = "name2"
       },
       new User() {
-        Username = "username2",
+        Username = "username3",
         Password = "password",
-        ScreenName = "screenname2",
+        ScreenName = "screenname3",
         Name = "name2"
       },
       new User() {
-        Username = "username2",
+        Username = "username3",
         Password = "password",
-        ScreenName = "screenname2",
+        ScreenName = "screenname3",
         Name = "name2"
       }
     };
