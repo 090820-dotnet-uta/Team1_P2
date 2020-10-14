@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Team1P2.Repo.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Migration1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,11 +43,18 @@ namespace Team1P2.Repo.Migrations
                     Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    ScreenName = table.Column<string>(nullable: true)
+                    ScreenName = table.Column<string>(nullable: true),
+                    UserId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_Users_Users_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -151,6 +158,11 @@ namespace Team1P2.Repo.Migrations
                 name: "IX_Notes_BlurbId",
                 table: "Notes",
                 column: "BlurbId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserId1",
+                table: "Users",
+                column: "UserId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

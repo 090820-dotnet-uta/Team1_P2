@@ -15,7 +15,7 @@ namespace Team1P2.Repo.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.8")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -147,10 +147,15 @@ namespace Team1P2.Repo.Migrations
                     b.Property<string>("ScreenName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Users");
                 });
@@ -192,6 +197,13 @@ namespace Team1P2.Repo.Migrations
                         .HasForeignKey("BlurbId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Team1P2.Models.Models.User", b =>
+                {
+                    b.HasOne("Team1P2.Models.Models.User", null)
+                        .WithMany("Following")
+                        .HasForeignKey("UserId1");
                 });
 #pragma warning restore 612, 618
         }
