@@ -54,16 +54,8 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="typeFilters"></param>
         /// <returns></returns>
         public static IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, Dictionary<Type, bool> typeFilters)
-        {
-            //This is one big linq query using a bunch of nested ternaries to determine the proper settings
-            //Think of it as a bunch of if else statements, but I have to use ternaries since it's in a linq query
-            blurbs
-                .Where(b =>
-                (b.Media.Type == Type.Movie ? (typeFilters[Type.Movie]) :        //If  the blurb is a movie and the filter setting includes movies, return true
-                (b.Media.Type == Type.Game ? (typeFilters[Type.Game]) :          //If  the blurb is a game and the filter setting includes games, return true
-                (b.Media.Type == Type.Book ? (typeFilters[Type.Book]) :          //If  the blurb is a book and the filter setting includes books, return true
-                (b.Media.Type == Type.TV ? (typeFilters[Type.TV]) : false)))));  //If  the blurb is a tv show and the filter setting includes tv shows, return true
-
+        {           
+            blurbs = blurbs.Where(b => typeFilters[b.Media.Type] == true);
             return blurbs;
         }
 

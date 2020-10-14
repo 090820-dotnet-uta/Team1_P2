@@ -400,7 +400,7 @@ namespace Team1P2.Tests
                 //Arrange
 
                 //STEP 1: SET UP THE IN-MEMORY DB
-                Media media1 = new Media(Models.Models.Type.Movie, "");                  //Add the movies to the DB
+                Media media1 = new Media(Models.Models.Type.Movie, "");             //Add the movies to the DB
                 Media media2 = new Media(Models.Models.Type.Movie, "");
                 Media media3 = new Media(Models.Models.Type.Movie, "");
                 context.Add(media1);
@@ -459,6 +459,67 @@ namespace Team1P2.Tests
 
                 //Assert
                 Assert.Equal(blurbsSortedComparison, sortedListScoreHL);
+            }
+        }
+
+
+        [Fact]
+        public void FilterByType_BooksOnly()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "Filter_BooksOnly")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+
+                //STEP 1: SET UP THE IN-MEMORY DB
+                Media media1 = new Media(Models.Models.Type.Movie, "");             //Add the movies to the DB
+                Media media2 = new Media(Models.Models.Type.Game, "");
+                Media media3 = new Media(Models.Models.Type.Book, "");
+                context.Add(media1);
+                context.Add(media2);
+                context.Add(media3);
+                context.SaveChanges();
+
+                Tag tag1 = new Tag("Horror");                                       //Add the tags for movie1 to the DB
+                Tag tag2 = new Tag("Thriller");
+                context.Add(tag1);
+                context.Add(tag2);
+                context.SaveChanges();
+
+                //Make an empty user to pass into the blurbs
+                User user = new User();
+
+                Blurb movie = new Blurb(user, 7, media1) { BlurbId = 1 };
+                Blurb game = new Blurb(user, 8, media2) { BlurbId = 2 };
+                Blurb book = new Blurb(user, 9, media3) { BlurbId = 3 };
+
+                //STEP2: ARRANGE EVERYTHING
+                Dictionary<Models.Models.Type, bool> filterDict = new Dictionary<Models.Models.Type, bool>();
+                filterDict.Add(Models.Models.Type.Book, true);
+                filterDict.Add(Models.Models.Type.Movie, false);
+                filterDict.Add(Models.Models.Type.Game, false);
+                filterDict.Add(Models.Models.Type.TV, false);
+
+                //Add the blurbs to the list
+                List<Blurb> blurbsUnfiltered = new List<Blurb>();
+                blurbsUnfiltered.Add(game);
+                blurbsUnfiltered.Add(movie);
+                blurbsUnfiltered.Add(book);
+
+                //the proper list should only contain the book item since those are the filter settings
+                List<Blurb> blurbsFilteredComparison = new List<Blurb>();
+                blurbsFilteredComparison.Add(book);
+
+                List<Blurb> blurbsFiltered = new List<Blurb>(); //set up empty lists to copy the sorted ones into
+
+                //Act
+                blurbsFiltered = DbManip.FilterByType(blurbsUnfiltered.AsQueryable<Blurb>(), filterDict).ToList();
+
+                //Assert
+                Assert.Equal(blurbsFilteredComparison, blurbsFiltered);
             }
         }
     }
