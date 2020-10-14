@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Team1P2.Models.Models
+﻿namespace Team1P2.Models.Models
 {
     public class Note
     {
@@ -21,12 +17,24 @@ namespace Team1P2.Models.Models
 
 
         /// <summary>
-        /// Initializes a note to a specific blurb
+        /// Initializes an empty note to a specific blurb
         /// </summary>
         /// <param name="blurb"></param>
         public Note(Blurb blurb)
         {
             Blurb = blurb;
+        }
+
+
+        /// <summary>
+        /// Initializes a note with a specific body to a specific blurb
+        /// </summary>
+        /// <param name="blurb"></param>
+        /// <param name="body"></param>
+        public Note(Blurb blurb, string body)
+        {
+            Blurb = blurb;
+            NoteBody = body;
         }
     }
 }
