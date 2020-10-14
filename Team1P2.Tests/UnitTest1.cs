@@ -522,5 +522,230 @@ namespace Team1P2.Tests
                 Assert.Equal(blurbsFilteredComparison, blurbsFiltered);
             }
         }
+
+
+
+        [Fact]
+        public void AddUserToDb_NewUser()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "AddUser")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+                User user = new User("skywalker13", "password13");
+
+                //Act
+                DbManip.AddUserToDb(context, user);
+
+                //Assert
+                Assert.True(context.Users.Contains(user));
+            }
+        }
+
+
+        [Fact]
+        public void EditUsername_GoodInput()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "EditUsername")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                DbManip.AddUserToDb(context, user);
+                user = context.Users.FirstOrDefault(x => x.Username == "skywalker13");
+
+                //Act
+                DbManip.EditUsername(context, user.UserId, "crono13");
+                user = context.Users.FirstOrDefault(x => x.UserId == user.UserId);
+
+                //Assert
+                Assert.Equal("crono13", user.Username);
+            }
+        }
+
+
+        [Fact]
+        public void EditScreenName_GoodInput()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "EditScreenName")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                DbManip.AddUserToDb(context, user);
+                user = context.Users.FirstOrDefault(x => x.Username == "skywalker13");
+
+                //Act
+                DbManip.EditScreenName(context, user.UserId, "crono13");
+                user = context.Users.FirstOrDefault(x => x.UserId == user.UserId);
+
+                //Assert
+                Assert.Equal("crono13", user.ScreenName);
+            }
+        }
+
+
+        [Fact]
+        public void EditName_GoodInput()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "EditName")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                DbManip.AddUserToDb(context, user);
+                user = context.Users.FirstOrDefault(x => x.Username == "skywalker13");
+
+                //Act
+                DbManip.EditName(context, user.UserId, "bob");
+                user = context.Users.FirstOrDefault(x => x.UserId == user.UserId);
+
+                //Assert
+                Assert.Equal("bob", user.Name);
+            }
+        }
+
+
+
+        [Fact]
+        public void EditPassword_GoodInput()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "EditPassword")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                DbManip.AddUserToDb(context, user);
+                user = context.Users.FirstOrDefault(x => x.Username == "skywalker13");
+
+                //Act
+                DbManip.EditPassword(context, user.UserId, "strongPassword123");
+                user = context.Users.FirstOrDefault(x => x.UserId == user.UserId);
+
+                //Assert
+                Assert.Equal("strongPassword123", user.Password);
+            }
+        }
+
+
+        [Fact]
+        public void AddBlurb_GoodInput()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "AddBlurb")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                Media media = new Media();
+                Blurb blurb = new Blurb(user, 7.5, media);
+
+                //Act
+                DbManip.AddBlurbToDb(context, blurb);
+
+                //Assert
+                Assert.True(context.Blurbs.Contains(blurb));
+            }
+        }
+
+
+        //[Fact]
+        //public void AddNote_GoodInput()
+        //{
+        //    var options = new DbContextOptionsBuilder<BlurbDbContext>()
+        //        .UseInMemoryDatabase(databaseName: "AddBlurb")
+        //        .Options;
+
+        //    using (var context = new BlurbDbContext(options))
+        //    {
+        //        //Arrange
+        //        User user = new User("skywalker13", "password13");
+        //        Media media = new Media();
+        //        Blurb blurb = new Blurb(user, 7.5, media);
+        //        DbManip.AddBlurbToDb(context, blurb);
+        //        Assert.True(context.Blurbs.Contains(blurb));
+        //        blurb = context.Blurbs.FirstOrDefault(b => b == blurb);
+
+        //        Note note = new Note(blurb);
+
+        //        //Act
+        //        DbManip.AddNoteToDb()
+
+        //        //Assert
+        //    }
+        //}
+
+
+        [Fact]
+        public void DeleteBlurb_NoNotes()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "DeleteNoNotes")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                Media media = new Media();
+                Blurb blurb = new Blurb(user, 7.5, media);
+                DbManip.AddBlurbToDb(context, blurb);                                   //Add a new blurb to the db
+                Assert.True(context.Blurbs.Contains(blurb));                            //Make sure we added a blurb to the db
+                int blurbId = context.Blurbs.FirstOrDefault(b => b == blurb).BlurbId;   //Get the blurbId of the one we just added
+                Assert.Equal(1, blurbId);                                               //Make sure we have the correct blurbId
+
+                //Act
+                DbManip.DeleteBlurb(context, blurbId);
+
+                //Assert
+                Assert.False(context.Blurbs.Contains(blurb));
+            }
+        }
+
+
+        [Fact]
+        public void DeleteBlurb_WithNotes()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "WithNoNotes")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                Media media = new Media();
+                Blurb blurb = new Blurb(user, 7.5, media);
+                DbManip.AddBlurbToDb(context, blurb);                     //Add a new blurb to the db
+                Assert.True(context.Blurbs.Contains(blurb));              //Make sure we added a blurb to the db
+                blurb = context.Blurbs.FirstOrDefault(b => b == blurb);   //Get the blurbId of the one we just added
+                Assert.Equal(1, blurb.BlurbId);                           //Make sure we have the correct blurbId
+
+                Note note = new Note(Blurb);
+
+                //Act
+                DbManip.DeleteBlurb(context, blurb.BlurbId);
+
+                //Assert
+                Assert.False(context.Blurbs.Contains(blurb));
+            }
+        }
     }
 }

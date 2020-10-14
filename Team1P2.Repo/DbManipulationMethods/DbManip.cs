@@ -11,6 +11,133 @@ namespace Team1P2.Repo.DbManipulationMethods
     public static class DbManip
     {
         /// <summary>
+        /// Adds the user to the db and saves changes
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="user"></param>
+        public static void AddUserToDb(BlurbDbContext context, User user)
+        {
+            context.Add(user);
+            context.SaveChanges();
+        }
+
+
+
+        /// <summary>
+        /// Updates a user's username and saves changes
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="userId"></param>
+        /// <param name="username"></param>
+        public static void EditUsername(BlurbDbContext context, int userId, string username)
+        {
+            var user = context.Users.FirstOrDefault(x => x.UserId == userId);
+            user.Username = username;
+            context.Update(user);
+            context.SaveChanges();
+        }
+
+
+        /// <summary>
+        ///  Updates a user's screen name and saves changes
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="userId"></param>
+        /// <param name="screenName"></param>
+        public static void EditScreenName(BlurbDbContext context, int userId, string screenName)
+        {
+            var user = context.Users.FirstOrDefault(x => x.UserId == userId);
+            user.ScreenName = screenName;
+            context.Update(user);
+            context.SaveChanges();
+        }
+
+
+        /// <summary>
+        /// Updates a user's name and saves changes
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="userId"></param>
+        /// <param name="name"></param>
+        public static void EditName(BlurbDbContext context, int userId, string name)
+        {
+            var user = context.Users.FirstOrDefault(x => x.UserId == userId);
+            user.Name = name;
+            context.Update(user);
+            context.SaveChanges();
+        }
+
+
+        /// <summary>
+        /// Updates a user's password and saves changes
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="userId"></param>
+        /// <param name="password"></param>
+        public static void EditPassword(BlurbDbContext context, int userId, string password)
+        {
+            var user = context.Users.FirstOrDefault(x => x.UserId == userId);
+            user.Password = password;
+            context.Update(user);
+            context.SaveChanges();
+        }
+
+
+        /// <summary>
+        /// Adds the blurb to the db and saves changes
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="blurb"></param>
+        public static void AddBlurbToDb(BlurbDbContext context, Blurb blurb)
+        {
+            context.Add(blurb);
+            context.SaveChanges();
+        }
+
+
+        /// <summary>
+        /// Deletes a blurb from the db as well as all notes referencing it
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="blurbId"></param>
+        public static void DeleteBlurb(BlurbDbContext context, int blurbId)
+        {
+            context.Blurbs.Remove(context.Blurbs.FirstOrDefault(b => b.BlurbId == blurbId)); //Remove the actual blurb
+            context.Notes.RemoveRange(context.Notes.Where(n => n.BlurbId == blurbId));       //Remove all notes that reference it
+            context.SaveChanges();
+        }
+
+        public static void EditBlurbScore(BlurbDbContext context, int blurbId, double newScore)
+        {
+
+        }
+
+        public static void EditBlurbPrivacy(BlurbDbContext context, int blurbId, Privacy privacy)
+        {
+
+        }
+
+        public static void EditBlurbMessage(BlurbDbContext context, int blurbId, string message)
+        {
+
+        }
+
+        public static void AddNoteToDb(BlurbDbContext context, int blurbId, Note note)
+        {
+            
+
+        }
+
+
+        public static void FollowUser(BlurbDbContext context, int curUserId, int toFollowId)
+        {
+
+        }
+
+
+
+
+        /// <summary>
         /// Sorts a list of blurbs by a given sort setting and returns the sorted list
         /// </summary>
         /// <param name="blurbs"></param>
