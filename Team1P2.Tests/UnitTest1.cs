@@ -538,7 +538,7 @@ namespace Team1P2.Tests
                 User user = new User("skywalker13", "password13");
 
                 //Act
-                DbManip.AddUserToDb(context, user);
+                user = DbManip.AddUserToDb(context, user);
 
                 //Assert
                 Assert.True(context.Users.Contains(user));
@@ -557,12 +557,10 @@ namespace Team1P2.Tests
             {
                 //Arrange
                 User user = new User("skywalker13", "password13");
-                DbManip.AddUserToDb(context, user);
-                user = context.Users.FirstOrDefault(x => x.Username == "skywalker13");
+                user = DbManip.AddUserToDb(context, user);
 
                 //Act
-                DbManip.EditUsername(context, user.UserId, "crono13");
-                user = context.Users.FirstOrDefault(x => x.UserId == user.UserId);
+                user = DbManip.EditUsername(context, user.UserId, "crono13");
 
                 //Assert
                 Assert.Equal("crono13", user.Username);
@@ -581,12 +579,10 @@ namespace Team1P2.Tests
             {
                 //Arrange
                 User user = new User("skywalker13", "password13");
-                DbManip.AddUserToDb(context, user);
-                user = context.Users.FirstOrDefault(x => x.Username == "skywalker13");
+                user = DbManip.AddUserToDb(context, user);
 
                 //Act
-                DbManip.EditScreenName(context, user.UserId, "crono13");
-                user = context.Users.FirstOrDefault(x => x.UserId == user.UserId);
+                user = DbManip.EditScreenName(context, user.UserId, "crono13");
 
                 //Assert
                 Assert.Equal("crono13", user.ScreenName);
@@ -605,12 +601,10 @@ namespace Team1P2.Tests
             {
                 //Arrange
                 User user = new User("skywalker13", "password13");
-                DbManip.AddUserToDb(context, user);
-                user = context.Users.FirstOrDefault(x => x.Username == "skywalker13");
+                user = DbManip.AddUserToDb(context, user);
 
                 //Act
-                DbManip.EditName(context, user.UserId, "bob");
-                user = context.Users.FirstOrDefault(x => x.UserId == user.UserId);
+                user = DbManip.EditName(context, user.UserId, "bob");
 
                 //Assert
                 Assert.Equal("bob", user.Name);
@@ -630,12 +624,10 @@ namespace Team1P2.Tests
             {
                 //Arrange
                 User user = new User("skywalker13", "password13");
-                DbManip.AddUserToDb(context, user);
-                user = context.Users.FirstOrDefault(x => x.Username == "skywalker13");
+                user = DbManip.AddUserToDb(context, user);
 
                 //Act
-                DbManip.EditPassword(context, user.UserId, "strongPassword123");
-                user = context.Users.FirstOrDefault(x => x.UserId == user.UserId);
+                user = DbManip.EditPassword(context, user.UserId, "strongPassword123");
 
                 //Assert
                 Assert.Equal("strongPassword123", user.Password);
@@ -658,8 +650,7 @@ namespace Team1P2.Tests
                 Blurb blurb = new Blurb(user, 7.5, media);
 
                 //Act
-                DbManip.AddBlurbToDb(context, blurb);
-                blurb = context.Blurbs.FirstOrDefault(b => b == blurb);
+                blurb = DbManip.AddBlurbToDb(context, blurb);
 
                 //Assert
                 Assert.True(context.Blurbs.Contains(blurb));
@@ -680,9 +671,8 @@ namespace Team1P2.Tests
                 User user = new User("skywalker13", "password13");
                 Media media = new Media();
                 Blurb blurb = new Blurb(user, 7.5, media);
-                DbManip.AddBlurbToDb(context, blurb);
+                blurb = DbManip.AddBlurbToDb(context, blurb);
                 Assert.True(context.Blurbs.Contains(blurb));
-                blurb = context.Blurbs.FirstOrDefault(b => b == blurb);
 
                 Note note = DbManip.CreateEmptyNote(context, blurb.BlurbId);
 
@@ -708,13 +698,13 @@ namespace Team1P2.Tests
                 User user = new User("skywalker13", "password13");
                 Media media = new Media();
                 Blurb blurb = new Blurb(user, 7.5, media);
-                DbManip.AddBlurbToDb(context, blurb);                                   //Add a new blurb to the db
+                blurb = DbManip.AddBlurbToDb(context, blurb);                           //Add a new blurb to the db
                 Assert.True(context.Blurbs.Contains(blurb));                            //Make sure we added a blurb to the db
                 int blurbId = context.Blurbs.FirstOrDefault(b => b == blurb).BlurbId;   //Get the blurbId of the one we just added
                 Assert.Equal(1, blurbId);                                               //Make sure we have the correct blurbId
 
                 //Act
-                DbManip.DeleteBlurb(context, blurbId);
+                bool deletedSuccessfully = DbManip.DeleteBlurb(context, blurbId);
 
                 //Assert
                 Assert.False(context.Blurbs.Contains(blurb));
@@ -735,8 +725,7 @@ namespace Team1P2.Tests
                 User user = new User("skywalker13", "password13");
                 Media media = new Media();
                 Blurb blurb = new Blurb(user, 7.5, media);
-                DbManip.AddBlurbToDb(context, blurb);                     //Add a new blurb to the db
-                blurb = context.Blurbs.FirstOrDefault(b => b == blurb);   //Get the blurbId of the one we just added
+                blurb = DbManip.AddBlurbToDb(context, blurb);  //Add a new blurb to the db
 
                 Note note = DbManip.CreateNote(context, blurb.BlurbId, "This is a blurb");
                 note = DbManip.AddNoteToDb(context, note);
@@ -746,11 +735,86 @@ namespace Team1P2.Tests
                 Assert.True(context.Notes.Contains(note));
 
                 //Act
-                DbManip.DeleteBlurb(context, blurb.BlurbId);
+                bool successfulDelete = DbManip.DeleteBlurb(context, blurb.BlurbId);
 
                 //Assert
                 Assert.False(context.Blurbs.Contains(blurb));
                 Assert.False(context.Notes.Contains(note));
+            }
+        }
+
+
+        [Fact]
+        public void EditBlurbScore_GoodInput()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "EditBlurbScore")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                Media media = new Media();
+                Blurb blurb = new Blurb(user, 7.5, media);
+                blurb = DbManip.AddBlurbToDb(context, blurb); //Add a new blurb to the db
+
+                //Act
+                blurb = DbManip.EditBlurbScore(context, blurb.BlurbId, 5.6);
+                var resultBlurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurb.BlurbId);
+
+                //Assert
+                Assert.Equal(5.6, resultBlurb.Score);
+            }
+        }
+
+
+        [Fact]
+        public void EditBlurbPrivacy_GoodInput()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "EditBlurbPRivacy")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                Media media = new Media();
+                Blurb blurb = new Blurb(user, 7.5, media) { Privacy = Privacy.Public };
+                blurb = DbManip.AddBlurbToDb(context, blurb); //Add a new blurb to the db
+
+                //Act
+                blurb = DbManip.EditBlurbPrivacy(context, blurb.BlurbId, Privacy.Private );
+                var resultBlurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurb.BlurbId);
+
+                //Assert
+                Assert.Equal(Privacy.Private, resultBlurb.Privacy);
+            }
+        }
+
+
+        [Fact]
+        public void EditBlurbMessage_GoodInput()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "EditBlurbMessage")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                Media media = new Media();
+                Blurb blurb = new Blurb(user, 7.5, media) { Privacy = Privacy.Public };
+                blurb = DbManip.AddBlurbToDb(context, blurb); //Add a new blurb to the db
+
+                //Act
+                blurb = DbManip.EditBlurbMessage(context, blurb.BlurbId, "This is a message");
+                var resultBlurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurb.BlurbId);
+
+                //Assert
+                Assert.Equal("This is a message", resultBlurb.Message);
             }
         }
     }
