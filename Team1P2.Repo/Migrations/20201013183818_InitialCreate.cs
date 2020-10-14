@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Team1P2.Repo.Migrations
 {
-    public partial class migration1 : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -86,7 +87,8 @@ namespace Team1P2.Repo.Migrations
                     Score = table.Column<double>(nullable: false),
                     Privacy = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    MediaId = table.Column<int>(nullable: false)
+                    MediaId = table.Column<int>(nullable: false),
+                    Timestamp = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

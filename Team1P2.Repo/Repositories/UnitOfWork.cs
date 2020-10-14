@@ -1,7 +1,4 @@
-﻿using System;
-using Team1P2.Models.Models;
-using Team1P2.Repo.Data;
-using Team1P2.Repo.Migrations;
+﻿using Team1P2.Repo.Data;
 using Team1P2.Repo.Repositories.IRepositories;
 
 namespace Team1P2.Repo.Repositories

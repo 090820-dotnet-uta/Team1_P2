@@ -1,4 +1,5 @@
-﻿using Team1P2.Models.Models.Enums;
+﻿using System.Collections.Generic;
+using Team1P2.Models.Models.Enums;
 
 namespace Team1P2.Models.Models
 {
@@ -9,6 +10,7 @@ namespace Team1P2.Models.Models
         public string Password { get; set; }
         public string Name { get; set; }
         public string ScreenName { get; set; }
+        public List<User> Following { get; set; } = new List<User>();
 
         //STRETCH GOAL IMPLEMENTATIONS
         //  public Privacy DefaultPrivacy { get; set; }
