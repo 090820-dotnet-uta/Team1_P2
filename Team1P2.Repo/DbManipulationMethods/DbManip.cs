@@ -5,6 +5,7 @@ using Team1P2.Models.Models.Enums;
 using Team1P2.Repo.Data;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Team1P2.Repo.DbManipulationMethods
 {
@@ -71,6 +72,66 @@ namespace Team1P2.Repo.DbManipulationMethods
       context.SaveChanges();
 
     }
+
+
+        public static User GetUser(BlurbDbContext context, int userId)
+        {
+            return context.Users.FirstOrDefault(u => u.UserId == userId);
+        }
+
+
+        public static List<User> GetAllUsers(BlurbDbContext context)
+        {
+            return context.Users.ToList();
+        }
+
+
+        public static Blurb GetBlurb(BlurbDbContext context, int blurbId)
+        {
+            return context.Blurbs.FirstOrDefault(b => b.BlurbId == blurbId);
+        }
+
+
+        public static List<Blurb> GetAllBlurbs(BlurbDbContext context)
+        {
+            return context.Blurbs.ToList();
+        }
+
+
+        public static List<Blurb> GetBlurbsByUserId(BlurbDbContext context, int userId)
+        {
+            return context.Blurbs.Where(b => b.UserId == userId).ToList();
+        }
+
+
+        public static List<Note> GetNotesByBlurbId(BlurbDbContext context, int blurbId)
+        {
+            return context.Notes.Where(n => n.BlurbId == blurbId).ToList();
+        }
+        
+
+        public static Media GetMedia(BlurbDbContext context, int mediaId)
+        {
+            return context.Medias.FirstOrDefault(m => m.MediaId == mediaId);
+        }
+
+
+        public static List<Media> GetAllMedia(BlurbDbContext context)
+        {
+            return context.Medias.ToList();
+        }
+
+
+        public static Tag GetTag(BlurbDbContext context, int tagId)
+        {
+            return context.Tags.FirstOrDefault(t => t.TagId == tagId);
+        }
+
+
+        //public static Tag GetTagsByMediaId(BlurbDbContext context, int mediaId)
+        //{
+            
+        //}
 
 
         /// <summary>
@@ -178,7 +239,7 @@ namespace Team1P2.Repo.DbManipulationMethods
                 context.SaveChanges();
                 return true;
             }
-            catch (InvalidExpressionException e)
+            catch (InvalidOperationException e)
             {
                 return false;
             }
@@ -269,6 +330,21 @@ namespace Team1P2.Repo.DbManipulationMethods
         }
 
 
+        public static bool DeleteNote(BlurbDbContext context, int noteId)
+        {
+            try
+            {
+                context.Notes.Remove(context.Notes.FirstOrDefault(n => n.NoteId == noteId));       //Remove all notes that reference it
+                context.SaveChanges();
+                return true;
+            }
+            catch (InvalidOperationException e)
+            {
+                return false;
+            }
+        }
+
+
         public static void FollowUser(BlurbDbContext context, int curUserId, int toFollowId)
         {
             //User curUser = context.Users.FirstOrDefault(u => u.UserId == curUserId);
@@ -319,7 +395,7 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="blurbs"></param>
         /// <param name="typeFilters"></param>
         /// <returns></returns>
-        public static IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, Dictionary<Type, bool> typeFilters)
+        public static IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, Dictionary<Models.Models.Type, bool> typeFilters)
         {
             blurbs = blurbs.Where(b => typeFilters[b.Media.Type] == true);
             return blurbs;
