@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Team1P2.Models.Models;
-using Team1P2.Repo.Repositories.IRepositories;
+using Team1P2.Repo.Repository;
 
 namespace Team1P2.Controllers
 {
@@ -10,25 +10,25 @@ namespace Team1P2.Controllers
     [ApiController]
     public class MediaController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly Repository _repository;
 
-        public MediaController(IUnitOfWork unitOfWork)
+        public MediaController(Repository repository)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
         }
 
         [Produces("application/json")]
         [HttpGet("find")]
         public async Task<ActionResult<Media>> Find()
         {
-            return await _unitOfWork.Media.GetAsync(1);
+            return await _repository.GetMediaAsync(1);
         }
 
         [Produces("application/json")]
         [HttpGet("findall")]
         public async Task<ActionResult<List<Media>>> FindAll()
         {
-            return await _unitOfWork.Media.GetAllAsync();
+            return await _repository.GetAllMediaAsync();
         }
     }
 }

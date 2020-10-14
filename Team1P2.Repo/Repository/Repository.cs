@@ -1,136 +1,165 @@
-﻿using System.Collections.Generic;
+﻿using Team1P2.Repo.Data;
+using System.Collections.Generic;
 using System.Linq;
 using Team1P2.Models.Models;
 using Team1P2.Models.Models.Enums;
-using Team1P2.Repo.Data;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Threading.Tasks;
 
-namespace Team1P2.Repo.DbManipulationMethods
+namespace Team1P2.Repo.Repository
 {
-  public static class DbManip
-  {
-    /// <summary>
-    /// UNUSED. This will check to see if the db is seeded
-    /// in order to not have to uncomment and recomment
-    /// current SeedDb method in UnitOfWork class
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
-    public static bool IsSeeded(BlurbDbContext context)
-      => (context.Users.Count() > 0 && context.Blurbs.Count() > 0);
-
-    /// <summary>
-    /// TODO ---> DOES NOT HANDLE FOLLOWING USERS YET!!
-    /// method for seeding db with SeedData dummy data
-    /// </summary>
-    /// <param name="context"></param>
-    public static void SeedDb(BlurbDbContext context)
+    public class Repository
     {
-      SeedData seedData = new SeedData();
+		private readonly BlurbDbContext _context;
 
-      //first add all the users
-      foreach (var user in seedData.Users)
-      {
-        context.Users.Add(user);
-      }
-      context.SaveChanges();
-
-      //next all the medias
-      for (int i = 0; i < seedData.Medias.Count; i++)
-      {
-        context.Medias.Add(seedData.Medias[i]);
-      }
-      context.SaveChanges();
-
-      //then add all the tags
-      for (int i = 0; i < seedData.Tags.Count; i++)
-      {
-        context.Tags.Add(seedData.Tags[i]);
-      }
-      context.SaveChanges();
-
-      //then use tags and medias to add all the mediatags
-      for (int i = 0; i < seedData.Medias.Count; i++)
-      {
-        MediaTag m = new MediaTag(seedData.Tags[i], seedData.Medias[i]);
-        context.MediaTags.Add(m);
-      }
-      context.SaveChanges();
-
-      //grab the newly added users
-      var u = context.Users.ToList();
-
-      //add the media and users to the blurbs and add the blurbs
-      for (int i = 0; i < seedData.Blurbs.Count; i++)
-      {
-        seedData.Blurbs[i].Media = seedData.Medias[i];
-        seedData.Blurbs[i].User = u[i];
-        context.Blurbs.Add(seedData.Blurbs[i]);
-      }
-      context.SaveChanges();
-
-    }
-
-
-        public static User GetUser(BlurbDbContext context, int userId)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="context"></param>
+		public Repository(BlurbDbContext context)
         {
-            return context.Users.FirstOrDefault(u => u.UserId == userId);
+			_context = context;
         }
 
 
-        public static List<User> GetAllUsers(BlurbDbContext context)
+        /// <summary>
+        /// UNUSED. This will check to see if the db is seeded
+        /// in order to not have to uncomment and recomment
+        /// current SeedDb method in UnitOfWork class
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public bool IsSeeded()
+          => (_context.Users.Count() > 0 && _context.Blurbs.Count() > 0);
+
+        /// <summary>
+        /// TODO ---> DOES NOT HANDLE FOLLOWING USERS YET!!
+        /// method for seeding db with SeedData dummy data
+        /// </summary>
+        /// <param name="context"></param>
+        public void SeedDb()
         {
-            return context.Users.ToList();
+            SeedData seedData = new SeedData();
+
+            //first add all the users
+            foreach (var user in seedData.Users)
+            {
+                _context.Users.Add(user);
+            }
+            _context.SaveChanges();
+
+            //next all the medias
+            for (int i = 0; i < seedData.Medias.Count; i++)
+            {
+                _context.Medias.Add(seedData.Medias[i]);
+            }
+            _context.SaveChanges();
+
+            //then add all the tags
+            for (int i = 0; i < seedData.Tags.Count; i++)
+            {
+                _context.Tags.Add(seedData.Tags[i]);
+            }
+            _context.SaveChanges();
+
+            //then use tags and medias to add all the mediatags
+            for (int i = 0; i < seedData.Medias.Count; i++)
+            {
+                MediaTag m = new MediaTag(seedData.Tags[i], seedData.Medias[i]);
+                _context.MediaTags.Add(m);
+            }
+            _context.SaveChanges();
+
+            //grab the newly added users
+            var u = _context.Users.ToList();
+
+            //add the media and users to the blurbs and add the blurbs
+            for (int i = 0; i < seedData.Blurbs.Count; i++)
+            {
+                seedData.Blurbs[i].Media = seedData.Medias[i];
+                seedData.Blurbs[i].User = u[i];
+                _context.Blurbs.Add(seedData.Blurbs[i]);
+            }
+            _context.SaveChanges();
+
+        }
+
+        public async Task<User> GetUserAsync(int userId)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
         }
 
 
-        public static Blurb GetBlurb(BlurbDbContext context, int blurbId)
+        public async Task<List<User>> GetAllUsersAsync()
         {
-            return context.Blurbs.FirstOrDefault(b => b.BlurbId == blurbId);
+            return await _context.Users.ToListAsync();
         }
 
 
-        public static List<Blurb> GetAllBlurbs(BlurbDbContext context)
+        public async Task<Blurb> GetBlurbAsync(int blurbId)
         {
-            return context.Blurbs.ToList();
+            return await _context.Blurbs.FirstOrDefaultAsync(b => b.BlurbId == blurbId);
         }
 
 
-        public static List<Blurb> GetBlurbsByUserId(BlurbDbContext context, int userId)
+        public async Task<List<Blurb>> GetAllBlurbsAsync()
         {
-            return context.Blurbs.Where(b => b.UserId == userId).ToList();
+            return await _context.Blurbs.ToListAsync();
         }
 
 
-        public static List<Note> GetNotesByBlurbId(BlurbDbContext context, int blurbId)
+        public async Task<List<Blurb>> GetBlurbsByUserIdAsync(int userId)
         {
-            return context.Notes.Where(n => n.BlurbId == blurbId).ToList();
-        }
-        
-
-        public static Media GetMedia(BlurbDbContext context, int mediaId)
-        {
-            return context.Medias.FirstOrDefault(m => m.MediaId == mediaId);
+            return await _context.Blurbs.Where(b => b.UserId == userId).ToListAsync();
         }
 
 
-        public static List<Media> GetAllMedia(BlurbDbContext context)
+        public async Task<List<Note>> GetNotesByBlurbIdAsync(int blurbId)
         {
-            return context.Medias.ToList();
+            return await _context.Notes.Where(n => n.BlurbId == blurbId).ToListAsync();
         }
 
 
-        public static Tag GetTag(BlurbDbContext context, int tagId)
+        public async Task<Media> GetMediaAsync(int mediaId)
         {
-            return context.Tags.FirstOrDefault(t => t.TagId == tagId);
+            return await _context.Medias.FirstOrDefaultAsync(m => m.MediaId == mediaId);
         }
 
 
-        //public static Tag GetTagsByMediaId(BlurbDbContext context, int mediaId)
+        public async Task<List<Media>> GetAllMediaAsync()
+        {
+            return await _context.Medias.ToListAsync();
+        }
+
+
+        public async Task<Tag> GetTagAsync(int tagId)
+        {
+            return await _context.Tags.FirstOrDefaultAsync(t => t.TagId == tagId);
+        }
+
+
+        public async Task<List<Tag>> GetAllTagsAsync()
+        {
+            return await _context.Tags.ToListAsync();
+        }
+
+        public async Task<MediaTag> GetMediaTagAsync(int tagId)
+        {
+            return await _context.MediaTags.FirstOrDefaultAsync(t => t.TagId == tagId);
+        }
+
+
+        public async Task<List<MediaTag>> GetAllMediaTagsAsync()
+        {
+            return await _context.MediaTags.ToListAsync();
+        }
+
+
+        //public async Tag GetTagsByMediaId(int mediaId)
         //{
-            
+
         //}
 
 
@@ -139,13 +168,12 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// </summary>
         /// <param name="context"></param>
         /// <param name="user"></param>
-        public static User AddUserToDb(BlurbDbContext context, User user)
+        public async Task<User> AddUserToDbAsync(User user)
         {
-            context.Add(user);
-            context.SaveChanges();
-            return context.Users.FirstOrDefault(u => u == user);
+            _context.Add(user);
+            _context.SaveChanges();
+            return await _context.Users.FirstOrDefaultAsync(u => u == user);
         }
-
 
 
         /// <summary>
@@ -154,13 +182,13 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="context"></param>
         /// <param name="userId"></param>
         /// <param name="username"></param>
-        public static User EditUsername(BlurbDbContext context, int userId, string username)
+        public async Task<User> EditUsernameAsync(int userId, string username)
         {
-            var user = context.Users.FirstOrDefault(x => x.UserId == userId);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             user.Username = username;
-            context.Update(user);
-            context.SaveChanges();
-            return context.Users.FirstOrDefault(u => u == user);
+            _context.Update(user);
+            _context.SaveChanges();
+            return await _context.Users.FirstOrDefaultAsync(u => u == user);
         }
 
 
@@ -170,13 +198,13 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="context"></param>
         /// <param name="userId"></param>
         /// <param name="screenName"></param>
-        public static User EditScreenName(BlurbDbContext context, int userId, string screenName)
+        public async Task<User> EditScreenNameAsync(int userId, string screenName)
         {
-            var user = context.Users.FirstOrDefault(x => x.UserId == userId);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             user.ScreenName = screenName;
-            context.Update(user);
-            context.SaveChanges();
-            return context.Users.FirstOrDefault(u => u == user);
+            _context.Update(user);
+            _context.SaveChanges();
+            return await _context.Users.FirstOrDefaultAsync(u => u == user);
         }
 
 
@@ -186,13 +214,13 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="context"></param>
         /// <param name="userId"></param>
         /// <param name="name"></param>
-        public static User EditName(BlurbDbContext context, int userId, string name)
+        public async Task<User> EditNameAsync(int userId, string name)
         {
-            var user = context.Users.FirstOrDefault(x => x.UserId == userId);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             user.Name = name;
-            context.Update(user);
-            context.SaveChanges();
-            return context.Users.FirstOrDefault(u => u == user);
+            _context.Update(user);
+            _context.SaveChanges();
+            return await _context.Users.FirstOrDefaultAsync(u => u == user);
         }
 
 
@@ -202,13 +230,13 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="context"></param>
         /// <param name="userId"></param>
         /// <param name="password"></param>
-        public static User EditPassword(BlurbDbContext context, int userId, string password)
+        public async Task<User> EditPasswordAsync(int userId, string password)
         {
-            var user = context.Users.FirstOrDefault(x => x.UserId == userId);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             user.Password = password;
-            context.Update(user);
-            context.SaveChanges();
-            return context.Users.FirstOrDefault(u => u == user);
+            _context.Update(user);
+            _context.SaveChanges();
+            return await _context.Users.FirstOrDefaultAsync(u => u == user);
         }
 
 
@@ -217,11 +245,11 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// </summary>
         /// <param name="context"></param>
         /// <param name="blurb"></param>
-        public static Blurb AddBlurbToDb(BlurbDbContext context, Blurb blurb)
+        public async Task<Blurb> AddBlurbToDbAsync(Blurb blurb)
         {
-            context.Add(blurb);
-            context.SaveChanges();
-            return context.Blurbs.FirstOrDefault(b => b == blurb);
+            _context.Add(blurb);
+            _context.SaveChanges();
+            return await _context.Blurbs.FirstOrDefaultAsync(b => b == blurb);
         }
 
 
@@ -230,13 +258,13 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// </summary>
         /// <param name="context"></param>
         /// <param name="blurbId"></param>
-        public static bool DeleteBlurb(BlurbDbContext context, int blurbId)
+        public bool DeleteBlurb(int blurbId)
         {
             try
             {
-                context.Blurbs.Remove(context.Blurbs.FirstOrDefault(b => b.BlurbId == blurbId)); //Remove the actual blurb
-                context.Notes.RemoveRange(context.Notes.Where(n => n.BlurbId == blurbId));       //Remove all notes that reference it
-                context.SaveChanges();
+                _context.Blurbs.Remove(_context.Blurbs.FirstOrDefault(b => b.BlurbId == blurbId)); //Remove the actual blurb
+                _context.Notes.RemoveRange(_context.Notes.Where(n => n.BlurbId == blurbId));       //Remove all notes that reference it
+                _context.SaveChanges();
                 return true;
             }
             catch (InvalidOperationException e)
@@ -252,13 +280,13 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="context"></param>
         /// <param name="blurbId"></param>
         /// <param name="newScore"></param>
-        public static Blurb EditBlurbScore(BlurbDbContext context, int blurbId, double newScore)
+        public async Task<Blurb> EditBlurbScoreAsync(int blurbId, double newScore)
         {
-            var blurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurbId);
+            var blurb = await _context.Blurbs.FirstOrDefaultAsync(x => x.BlurbId == blurbId);
             blurb.Score = newScore;
-            context.Update(blurb);
-            context.SaveChanges();
-            return context.Blurbs.FirstOrDefault(b => b == blurb);
+            _context.Update(blurb);
+            _context.SaveChanges();
+            return await _context.Blurbs.FirstOrDefaultAsync(b => b == blurb);
         }
 
 
@@ -268,13 +296,13 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="context"></param>
         /// <param name="blurbId"></param>
         /// <param name="privacy"></param>
-        public static Blurb EditBlurbPrivacy(BlurbDbContext context, int blurbId, Privacy privacy)
+        public async Task<Blurb> EditBlurbPrivacyAsync(int blurbId, Privacy privacy)
         {
-            var blurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurbId);
+            var blurb = await _context.Blurbs.FirstOrDefaultAsync(x => x.BlurbId == blurbId);
             blurb.Privacy = privacy;
-            context.Update(blurb);
-            context.SaveChanges();
-            return context.Blurbs.FirstOrDefault(b => b == blurb);
+            _context.Update(blurb);
+            _context.SaveChanges();
+            return await _context.Blurbs.FirstOrDefaultAsync(b => b == blurb);
         }
 
 
@@ -284,13 +312,13 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="context"></param>
         /// <param name="blurbId"></param>
         /// <param name="message"></param>
-        public static Blurb EditBlurbMessage(BlurbDbContext context, int blurbId, string message)
+        public async Task<Blurb> EditBlurbMessageAsync(int blurbId, string message)
         {
-            var blurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurbId);
+            var blurb = await _context.Blurbs.FirstOrDefaultAsync(x => x.BlurbId == blurbId);
             blurb.Message = message;
-            context.Update(blurb);
-            context.SaveChanges();
-            return context.Blurbs.FirstOrDefault(b => b == blurb);
+            _context.Update(blurb);
+            _context.SaveChanges();
+            return await _context.Blurbs.FirstOrDefaultAsync(b => b == blurb);
         }
 
         /// <summary>
@@ -299,9 +327,9 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="context"></param>
         /// <param name="blurbId"></param>
         /// <returns></returns>
-        public static Note CreateEmptyNote(BlurbDbContext context, int blurbId)
+        public async Task<Note> CreateEmptyNoteAsync(int blurbId)
         {
-            var blurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurbId);
+            var blurb = await _context.Blurbs.FirstOrDefaultAsync(x => x.BlurbId == blurbId);
             Note note = new Note(blurb);
             return note;
         }
@@ -314,28 +342,28 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="blurbId"></param>
         /// <param name="noteBody"></param>
         /// <returns></returns>
-        public static Note CreateNote(BlurbDbContext context, int blurbId, string noteBody)
+        public async Task<Note> CreateNoteAsync(int blurbId, string noteBody)
         {
-            var blurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurbId);
+            var blurb = await _context.Blurbs.FirstOrDefaultAsync(x => x.BlurbId == blurbId);
             Note note = new Note(blurb, noteBody);
             return note;
         }
 
 
-        public static Note AddNoteToDb(BlurbDbContext context, Note note)
+        public async Task<Note> AddNoteToDbAsync(Note note)
         {
-            context.Add(note);
-            context.SaveChanges();
-            return context.Notes.FirstOrDefault(n => n == note);
+            _context.Add(note);
+            _context.SaveChanges();
+            return await _context.Notes.FirstOrDefaultAsync(n => n == note);
         }
 
 
-        public static bool DeleteNote(BlurbDbContext context, int noteId)
+        public async Task<bool> DeleteNoteAsync(int noteId)
         {
             try
             {
-                context.Notes.Remove(context.Notes.FirstOrDefault(n => n.NoteId == noteId));       //Remove all notes that reference it
-                context.SaveChanges();
+                _context.Notes.Remove(await _context.Notes.FirstOrDefaultAsync(n => n.NoteId == noteId));       //Remove all notes that reference it
+                _context.SaveChanges();
                 return true;
             }
             catch (InvalidOperationException e)
@@ -345,11 +373,11 @@ namespace Team1P2.Repo.DbManipulationMethods
         }
 
 
-        public static void FollowUser(BlurbDbContext context, int curUserId, int toFollowId)
-        {
-            //User curUser = context.Users.FirstOrDefault(u => u.UserId == curUserId);
+        //public async void FollowUser(int curUserId, int toFollowId)
+        //{
+        //    User curUser = _context.Users.FirstOrDefault(u => u.UserId == curUserId);
 
-        }
+        //}
 
 
         /// <summary>
@@ -358,7 +386,7 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="blurbs"></param>
         /// <param name="setting"></param>
         /// <returns></returns>
-        public static IQueryable<Blurb> SortBlurbs(IQueryable<Blurb> blurbs, SortSetting setting)
+        public IQueryable<Blurb> SortBlurbs(IQueryable<Blurb> blurbs, SortSetting setting)
         {
             switch (setting)
             {
@@ -395,7 +423,7 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="blurbs"></param>
         /// <param name="typeFilters"></param>
         /// <returns></returns>
-        public static IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, Dictionary<Models.Models.Type, bool> typeFilters)
+        public IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, Dictionary<Models.Models.Type, bool> typeFilters)
         {
             blurbs = blurbs.Where(b => typeFilters[b.Media.Type] == true);
             return blurbs;
@@ -408,7 +436,7 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="user"></param>
         /// <param name="blurb"></param>
         /// <returns></returns>
-        public static bool CanSeeBlurb(User user, Blurb blurb)
+        public bool CanSeeBlurb(User user, Blurb blurb)
         {
             if (blurb.Privacy == Privacy.Public)
             {
@@ -436,7 +464,7 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="blurbs"></param>
         /// <param name="curUser"></param>
         /// <returns></returns>
-        public static IQueryable<Blurb> FilterByCanSee(IQueryable<Blurb> blurbs, User curUser)
+        public IQueryable<Blurb> FilterByCanSee(IQueryable<Blurb> blurbs, User curUser)
         {
             blurbs = blurbs.Where(b => b.UserId == curUser.UserId || CanSeeBlurb(curUser, b));
             return blurbs;
@@ -452,7 +480,7 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="includeFollowing"></param>
         /// <param name="includeUnfollowed"></param>
         /// <returns></returns>
-        public static IQueryable<Blurb> FilterByUser(IQueryable<Blurb> blurbs, User curUser, bool includeSelf, bool includeFollowing, bool includeUnfollowed)
+        public IQueryable<Blurb> FilterByUser(IQueryable<Blurb> blurbs, User curUser, bool includeSelf, bool includeFollowing, bool includeUnfollowed)
         {
             var followingListIds = curUser.Following.Select(f => f.UserId);
             blurbs = blurbs
@@ -472,9 +500,9 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="curUser"></param>
         /// <param name="querySettings"></param>
         /// <returns></returns>
-        public static List<Blurb> FullQuery(BlurbDbContext context, User curUser, SortFilterSetting querySettings)
+        public List<Blurb> FullQuery(User curUser, SortFilterSetting querySettings)
         {
-            var queriedblurbs = FilterByCanSee(context.Blurbs, curUser);           //Filters out the items the curUser doesn't have permissions to see
+            var queriedblurbs = FilterByCanSee(_context.Blurbs, curUser);           //Filters out the items the curUser doesn't have permissions to see
             queriedblurbs = FilterByType(queriedblurbs, querySettings.TypeFilter); //Filters by the media type
             queriedblurbs = FilterByUser(queriedblurbs, curUser, querySettings.IncludeSelf, querySettings.IncludeFollowering, querySettings.IncludeUnfollowed); //Filters by the specified users
 
