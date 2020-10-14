@@ -9,6 +9,8 @@ namespace Team1P2.Repo.Repositories.IRepositories
         ValueTask<T> GetAsync(int id);
 
         ValueTask<List<T>> GetAllAsync();
+
+        void Add(T entity);
     }
     
 }

@@ -30,5 +30,10 @@ namespace Team1P2.Repo.Repositories
         {
             return await dbSet.ToListAsync();
         }
+
+        public void Add(T entity)
+        {
+            dbSet.Add(entity);
+        }
     }
 }
