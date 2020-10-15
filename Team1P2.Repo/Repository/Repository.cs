@@ -86,81 +86,199 @@ namespace Team1P2.Repo.Repository
 
         }
 
+
+        /// <summary>
+        /// Gets a user from the db given a userId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<User> GetUserAsync(int userId)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
         }
 
 
+        /// <summary>
+        /// Gets a list of all users from the db
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<User>> GetAllUsersAsync()
         {
             return await _context.Users.ToListAsync();
         }
 
 
+        /// <summary>
+        /// Gets a blurb from the db given a blurbId
+        /// </summary>
+        /// <param name="blurbId"></param>
+        /// <returns></returns>
         public async Task<Blurb> GetBlurbAsync(int blurbId)
         {
             return await _context.Blurbs.FirstOrDefaultAsync(b => b.BlurbId == blurbId);
         }
 
 
+        /// <summary>
+        /// Gets all blurbs from the db
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Blurb>> GetAllBlurbsAsync()
         {
             return await _context.Blurbs.ToListAsync();
         }
 
 
+        /// <summary>
+        /// Gets all blurbs for a specific user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<List<Blurb>> GetBlurbsByUserIdAsync(int userId)
         {
             return await _context.Blurbs.Where(b => b.UserId == userId).ToListAsync();
         }
 
 
+        /// <summary>
+        /// Gets all notes for a specific blurb
+        /// </summary>
+        /// <param name="blurbId"></param>
+        /// <returns></returns>
         public async Task<List<Note>> GetNotesByBlurbIdAsync(int blurbId)
         {
             return await _context.Notes.Where(n => n.BlurbId == blurbId).ToListAsync();
         }
 
 
+        /// <summary>
+        /// Adds a media item to the db and returns it
+        /// </summary>
+        /// <param name="media"></param>
+        /// <returns></returns>
+        public async Task<Media> AddMediaToDbAsync(Media media)
+        {
+            _context.Add(media);
+            _context.SaveChanges();
+            return await _context.Medias.FirstOrDefaultAsync(x => x == media);
+        }
+
+
+        /// <summary>
+        /// Gets a media item from the db
+        /// </summary>
+        /// <param name="mediaId"></param>
+        /// <returns></returns>
         public async Task<Media> GetMediaAsync(int mediaId)
         {
             return await _context.Medias.FirstOrDefaultAsync(m => m.MediaId == mediaId);
         }
 
 
+        /// <summary>
+        /// Gets all media items from the db
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Media>> GetAllMediaAsync()
         {
             return await _context.Medias.ToListAsync();
         }
 
 
+        /// <summary>
+        /// Adds a task to the db and returns the added task.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public async Task<Tag> AddTagToDbAsync(Tag tag)
+        {
+            _context.Add(tag);
+            _context.SaveChanges();
+            return await _context.Tags.FirstOrDefaultAsync(t => t == tag);
+        }
+
+
+        /// <summary>
+        /// Gets a tag from the db
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
         public async Task<Tag> GetTagAsync(int tagId)
         {
             return await _context.Tags.FirstOrDefaultAsync(t => t.TagId == tagId);
         }
 
 
+        /// <summary>
+        /// Gets all tags from the db
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Tag>> GetAllTagsAsync()
         {
             return await _context.Tags.ToListAsync();
         }
 
+
+        /// <summary>
+        /// Adds a media tag relation to the db and returns it
+        /// </summary>
+        /// <param name="mediaTag"></param>
+        /// <returns></returns>
+        public async Task<MediaTag> AddMediaTagToDbAsync(MediaTag mediaTag)
+        {
+            _context.Add(mediaTag);
+            _context.SaveChanges();
+            return await _context.MediaTags.FirstOrDefaultAsync(t => t == mediaTag);
+        }
+
+
+        /// <summary>
+        /// Gets a mediaTag item from the db
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
         public async Task<MediaTag> GetMediaTagAsync(int tagId)
         {
             return await _context.MediaTags.FirstOrDefaultAsync(t => t.TagId == tagId);
         }
 
 
+        /// <summary>
+        /// Gets all mediaTag objects from the db
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<MediaTag>> GetAllMediaTagsAsync()
         {
             return await _context.MediaTags.ToListAsync();
         }
 
 
-        //public async Tag GetTagsByMediaId(int mediaId)
-        //{
+        /// <summary>
+        /// Gets a list of tags associated with a given media object
+        /// </summary>
+        /// <param name="mediaId"></param>
+        /// <returns></returns>
+        public async Task<List<Tag>> GetTagsByMediaId(int mediaId)
+        {
+            var mediaTags = _context.MediaTags.Where(m => m.MediaId == mediaId).Select(x => x.TagId);
+            return await _context.Tags
+                .Where(t => mediaTags.Contains(t.TagId)) //Gets the list of tags where the join table contains the tagId
+                .ToListAsync();
+        }
 
-        //}
+
+        /// <summary>
+        /// Gets the list of media associated with a given tag
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public async Task<List<Media>> GetMediaByTagId(int tagId)
+        {
+            var mediaTags = _context.MediaTags.Where(m => m.TagId == tagId).Select(x => x.MediaId);
+            return await _context.Medias
+                .Where(t => mediaTags.Contains(t.MediaId)) //Gets the list of media where the join table contains the mediaId
+                .ToListAsync();
+        }
 
 
         /// <summary>
@@ -296,10 +414,13 @@ namespace Team1P2.Repo.Repository
         /// <param name="context"></param>
         /// <param name="blurbId"></param>
         /// <param name="privacy"></param>
-        public async Task<Blurb> EditBlurbPrivacyAsync(int blurbId, Privacy privacy)
+        public async Task<Blurb> EditBlurbPrivacyAsync(int blurbId, int privacy)
         {
             var blurb = await _context.Blurbs.FirstOrDefaultAsync(x => x.BlurbId == blurbId);
-            blurb.Privacy = privacy;
+            if (privacy < Enum.GetNames(typeof(Privacy)).Length)
+            {
+                blurb.Privacy = (Privacy)privacy;
+            }
             _context.Update(blurb);
             _context.SaveChanges();
             return await _context.Blurbs.FirstOrDefaultAsync(b => b == blurb);
@@ -350,6 +471,11 @@ namespace Team1P2.Repo.Repository
         }
 
 
+        /// <summary>
+        /// Adds a note to the db and returns it
+        /// </summary>
+        /// <param name="note"></param>
+        /// <returns></returns>
         public async Task<Note> AddNoteToDbAsync(Note note)
         {
             _context.Add(note);
@@ -370,6 +496,17 @@ namespace Team1P2.Repo.Repository
             {
                 return false;
             }
+        }
+
+
+        /// <summary>
+        /// Gets a note from the db by id
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
+        public async Task<Note> GetNoteAsync(int noteId)
+        {
+            return await _context.Notes.FirstOrDefaultAsync(n => n.NoteId == noteId);
         }
 
 
@@ -423,7 +560,7 @@ namespace Team1P2.Repo.Repository
         /// <param name="blurbs"></param>
         /// <param name="typeFilters"></param>
         /// <returns></returns>
-        public IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, Dictionary<Models.Models.Type, bool> typeFilters)
+        public IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, Dictionary<Models.Models.Enums.Type, bool> typeFilters)
         {
             blurbs = blurbs.Where(b => typeFilters[b.Media.Type] == true);
             return blurbs;
@@ -466,7 +603,14 @@ namespace Team1P2.Repo.Repository
         /// <returns></returns>
         public IQueryable<Blurb> FilterByCanSee(IQueryable<Blurb> blurbs, User curUser)
         {
-            blurbs = blurbs.Where(b => b.UserId == curUser.UserId || CanSeeBlurb(curUser, b));
+            var followingListIds = curUser.Following.Select(f => f.UserId);
+
+            blurbs = blurbs.Where(b => b.UserId == curUser.UserId ||                                 //If the blurb is the current user's, or.....
+                (b.Privacy == Privacy.Public ? true                                                  //if privacy is public, return true...
+                : (followingListIds.Contains(b.UserId) && b.Privacy == Privacy.FollowersOnly ? true  //else if privacy is followers and user is a follower, return true...
+                : false                                                                              //else return false
+                )));
+
             return blurbs;
         }
 
@@ -500,7 +644,7 @@ namespace Team1P2.Repo.Repository
         /// <param name="curUser"></param>
         /// <param name="querySettings"></param>
         /// <returns></returns>
-        public List<Blurb> FullQuery(User curUser, SortFilterSetting querySettings)
+        public async Task<List<Blurb>> FullQuery(User curUser, SortFilterSetting querySettings)
         {
             var queriedblurbs = FilterByCanSee(_context.Blurbs, curUser);           //Filters out the items the curUser doesn't have permissions to see
             queriedblurbs = FilterByType(queriedblurbs, querySettings.TypeFilter); //Filters by the media type
@@ -508,7 +652,7 @@ namespace Team1P2.Repo.Repository
 
             var sortedBlurbs = SortBlurbs(queriedblurbs, querySettings.SortSetting); //Sorts by a given sort setting
 
-            return sortedBlurbs.ToList();
+            return await sortedBlurbs.ToListAsync();
         }
     }
 }
