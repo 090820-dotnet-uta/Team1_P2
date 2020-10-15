@@ -17,5 +17,6 @@ namespace Team1P2.Repo.Data
     public DbSet<Note> Notes { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<MediaTag> MediaTags { get; set; }
+    public DbSet<FollowingEntry> FollowingEntries { get; set; }
   }
 }
