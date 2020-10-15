@@ -19,10 +19,10 @@ namespace Team1P2.Controllers
     }
 
     [Produces("application/json")]
-    [HttpGet("find/{id}")]
-    public async Task<ActionResult<User>> Find(int id)
+    [HttpGet("find/{userId}")]
+    public async Task<ActionResult<User>> Find(int userId)
     {
-      return await _repository.GetUserAsync(id);
+      return await _repository.GetUserAsync(userId);
     }
 
     [Produces("application/json")]

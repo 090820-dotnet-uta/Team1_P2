@@ -19,10 +19,10 @@ namespace Team1P2.Controllers
     }
 
     [Produces("application/json")]
-    [HttpGet("find/{id}")]
-    public async Task<ActionResult<Blurb>> Find(int id)
+    [HttpGet("find/{blurbId}")]
+    public async Task<ActionResult<Blurb>> Find(int blurbId)
     {
-      return await _repository.GetBlurbAsync(id);
+      return await _repository.GetBlurbAsync(blurbId);
     }
 
     [Produces("application/json")]
@@ -30,6 +30,13 @@ namespace Team1P2.Controllers
     public async Task<ActionResult<List<Blurb>>> FindAll()
     {
       return await _repository.GetAllBlurbsAsync();
+    }
+
+    [Produces("application/json")]
+    [HttpGet("find/all/user/{userId}")]
+    public async Task<ActionResult<List<Blurb>>> FindAllByUser(int userId)
+    {
+      return await _repository.GetBlurbsByUserIdAsync(userId);
     }
 
     [Produces("application/json")]
@@ -61,10 +68,10 @@ namespace Team1P2.Controllers
     }
 
     [Produces("application/json")]
-    [HttpDelete("remove/{id}")]
-    public bool EditPassword(int id)
+    [HttpDelete("remove/{blurbId}")]
+    public bool Delete(int blurbId)
     {
-      return _repository.DeleteBlurb(id);
+      return _repository.DeleteBlurb(blurbId);
     }
 
   }
