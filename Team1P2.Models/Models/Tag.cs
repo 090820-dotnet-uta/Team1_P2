@@ -6,7 +6,7 @@ namespace Team1P2.Models.Models
     {
         public int TagId { get; set; }
         public string Name { get; set; }
-        public List<MediaTag> MediaTags { get; set; }
+        public List<MediaTag> MediaTags { get; set; } = new List<MediaTag>();
 
 
         public Tag(){}
@@ -19,7 +19,6 @@ namespace Team1P2.Models.Models
         public Tag(string name)
         {
             Name = name;
-            MediaTags = new List<MediaTag>();
         }
 
 
