@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Team1P2.Models.Models.Enums;
 
 namespace Team1P2.Models.Models
 {
