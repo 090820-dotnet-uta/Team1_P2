@@ -522,6 +522,17 @@ namespace Team1P2.Repo.Repository
 
 
         /// <summary>
+        /// Queries the followerEntry list to get the list of users following this user
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<User>> GetFollowers(int userId)
+        {
+            var followersIds = _context.FollowingEntries.Where(f => f.FollowedUserId == userId).Select(x => x.UserId); //Gets the userIds of all the ppl following the user
+            return await _context.Users.Where(u => followersIds.Contains(u.UserId)).ToListAsync();
+        }
+
+
+        /// <summary>
         /// Returns true if the user has permission to see the blurb, false if they do not
         /// </summary>
         /// <param name="user"></param>
@@ -535,7 +546,7 @@ namespace Team1P2.Repo.Repository
             }
             else  //If the list of IDs in the following list contains this id, return true
             {
-                var followingListIds = user.Following.Select(x => x.UserId);
+                var followingListIds = user.GetFollowingList().Select(x => x.UserId);
 
                 if (followingListIds.Contains(blurb.UserId) && blurb.Privacy == Privacy.FollowersOnly)
                 {
@@ -557,7 +568,7 @@ namespace Team1P2.Repo.Repository
         /// <returns></returns>
         public IQueryable<Blurb> FilterByCanSee(IQueryable<Blurb> blurbs, User curUser)
         {
-            var followingListIds = curUser.Following.Select(f => f.UserId);
+            var followingListIds = curUser.GetFollowingList().Select(f => f.UserId);
 
             blurbs = blurbs.Where(b => b.UserId == curUser.UserId ||                                 //If the blurb is the current user's, or.....
                 (b.Privacy == Privacy.Public ? true                                                  //if privacy is public, return true...
@@ -580,7 +591,7 @@ namespace Team1P2.Repo.Repository
         /// <returns></returns>
         public IQueryable<Blurb> FilterByUser(IQueryable<Blurb> blurbs, User curUser, bool includeSelf, bool includeFollowing, bool includeUnfollowed)
         {
-            var followingListIds = curUser.Following.Select(f => f.UserId);
+            var followingListIds = curUser.GetFollowingList().Select(f => f.UserId);
             blurbs = blurbs
                 .Where(b =>
                        (includeFollowing ? followingListIds.Contains(b.UserId) : false)     //If the blurb is from someone you're following and the setting includes them, return true

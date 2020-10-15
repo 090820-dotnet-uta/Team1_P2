@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Team1P2.Models.Models.Enums;
+using System.Linq;
 
 namespace Team1P2.Models.Models
 {
@@ -10,7 +10,9 @@ namespace Team1P2.Models.Models
         public string Password { get; set; }
         public string Name { get; set; }
         public string ScreenName { get; set; }
-        public List<User> Following { get; set; } = new List<User>();
+        //public List<User> Following { get; set; } = new List<User>();
+        //public List<User> Followers { get; set; } = new List<User>();
+        public List<FollowingEntry> FollowingEntries { get; set; } = new List<FollowingEntry>();
 
         //STRETCH GOAL IMPLEMENTATIONS
         //  public Privacy DefaultPrivacy { get; set; }
@@ -29,6 +31,16 @@ namespace Team1P2.Models.Models
             Username = username;
             Password = password;
             ScreenName = username; //by default, the screen name is the same as the username
+        }
+
+
+        /// <summary>
+        /// Queries the followerEntry list to get the list of users this user is following
+        /// </summary>
+        /// <returns></returns>
+        public List<User> GetFollowingList()
+        {
+            return FollowingEntries.Where(y => y.UserId == UserId).Select(x => x.FollowedUser).ToList();
         }
     }
 }
