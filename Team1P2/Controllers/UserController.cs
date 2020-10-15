@@ -19,17 +19,32 @@ namespace Team1P2.Controllers
     }
 
     [Produces("application/json")]
-    [HttpGet("find")]
-    public async Task<ActionResult<User>> Find()
+    [HttpGet("find/{userId}")]
+    public async Task<ActionResult<User>> Find(int userId)
     {
-      return await _repository.GetUserAsync(1);
+      return await _repository.GetUserAsync(userId);
     }
 
     [Produces("application/json")]
-    [HttpGet("findall")]
+    [HttpGet("find/all")]
     public async Task<ActionResult<List<User>>> FindAll()
     {
       return await _repository.GetAllUsersAsync();
     }
+
+    [Produces("application/json")]
+    [HttpPost("add")]
+    public async Task<ActionResult<User>> Add(User user)
+    {
+      return await _repository.AddUserToDbAsync(user);
+    }
+
+    [Produces("application/json")]
+    [HttpPut("edit/user")]
+    public async Task<ActionResult<User>> EditUser(User user)
+    {
+      return await _repository.EditUserAsync(user.UserId, user.Username, user.ScreenName, user.Name, user.Password);
+    }
+
   }
 }

@@ -300,63 +300,17 @@ namespace Team1P2.Repo.Repository
         /// <param name="context"></param>
         /// <param name="userId"></param>
         /// <param name="username"></param>
-        public async Task<User> EditUsernameAsync(int userId, string username)
+        public async Task<User> EditUserAsync(int userId, string username, string screenName, string name, string password)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             user.Username = username;
-            _context.Update(user);
-            _context.SaveChanges();
-            return await _context.Users.FirstOrDefaultAsync(u => u == user);
-        }
-
-
-        /// <summary>
-        ///  Updates a user's screen name and saves changes
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="userId"></param>
-        /// <param name="screenName"></param>
-        public async Task<User> EditScreenNameAsync(int userId, string screenName)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             user.ScreenName = screenName;
-            _context.Update(user);
-            _context.SaveChanges();
-            return await _context.Users.FirstOrDefaultAsync(u => u == user);
-        }
-
-
-        /// <summary>
-        /// Updates a user's name and saves changes
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="userId"></param>
-        /// <param name="name"></param>
-        public async Task<User> EditNameAsync(int userId, string name)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             user.Name = name;
-            _context.Update(user);
-            _context.SaveChanges();
-            return await _context.Users.FirstOrDefaultAsync(u => u == user);
-        }
-
-
-        /// <summary>
-        /// Updates a user's password and saves changes. Returns the edited user.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="userId"></param>
-        /// <param name="password"></param>
-        public async Task<User> EditPasswordAsync(int userId, string password)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             user.Password = password;
             _context.Update(user);
             _context.SaveChanges();
             return await _context.Users.FirstOrDefaultAsync(u => u == user);
         }
-
 
         /// <summary>
         /// Adds the blurb to the db and saves changes
@@ -509,11 +463,11 @@ namespace Team1P2.Repo.Repository
             return await _context.Notes.FirstOrDefaultAsync(n => n.NoteId == noteId);
         }
 
-
+        //NEED TO CHANGE THE MODELS BEFORE DOING THIS
         //public async void FollowUser(int curUserId, int toFollowId)
         //{
         //    User curUser = _context.Users.FirstOrDefault(u => u.UserId == curUserId);
-
+           
         //}
 
 

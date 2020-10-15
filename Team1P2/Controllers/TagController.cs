@@ -6,29 +6,29 @@ using Team1P2.Repo.Repository;
 
 namespace Team1P2.Controllers
 {
-    [Route("api/tag")]
-    [ApiController]
-    public class TagController : Controller
+  [Route("api/tag")]
+  [ApiController]
+  public class TagController : Controller
+  {
+    private readonly Repository _repository;
+
+    public TagController(Repository repository)
     {
-        private readonly Repository _repository;
-
-        public TagController(Repository repository)
-        {
-            _repository = repository;
-        }
-
-        [Produces("application/json")]
-        [HttpGet("find")]
-        public async Task<ActionResult<Tag>> Find()
-        {
-            return await _repository.GetTagAsync(1);
-        }
-
-        [Produces("application/json")]
-        [HttpGet("findall")]
-        public async Task<ActionResult<List<Tag>>> FindAll()
-        {
-            return await _repository.GetAllTagsAsync();
-        }
+      _repository = repository;
     }
+
+    [Produces("application/json")]
+    [HttpGet("find/{tagId}")]
+    public async Task<ActionResult<Tag>> Find(int tagId)
+    {
+      return await _repository.GetTagAsync(tagId);
+    }
+
+    [Produces("application/json")]
+    [HttpGet("find/all")]
+    public async Task<ActionResult<List<Tag>>> FindAll()
+    {
+      return await _repository.GetAllTagsAsync();
+    }
+  }
 }
