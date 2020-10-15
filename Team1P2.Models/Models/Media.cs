@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Team1P2.Models.Models.Enums;
 
 namespace Team1P2.Models.Models
 {
@@ -7,7 +8,7 @@ namespace Team1P2.Models.Models
         public int MediaId { get; set; }
         public Type Type { get; set; }
         public string Name { get; set; }
-        public List<MediaTag> MediaTags { get; set; }
+        public List<MediaTag> MediaTags { get; set; } = new List<MediaTag>();
 
 
         public Media() {}
@@ -22,7 +23,6 @@ namespace Team1P2.Models.Models
         {
             Type = type;
             Name = name;
-            MediaTags = new List<MediaTag>();
         }
 
 

@@ -11,69 +11,6 @@ namespace Team1P2.Repo.DbManipulationMethods
 {
   public static class DbManip
   {
-    /// <summary>
-    /// UNUSED. This will check to see if the db is seeded
-    /// in order to not have to uncomment and recomment
-    /// current SeedDb method in UnitOfWork class
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
-    public static bool IsSeeded(BlurbDbContext context)
-      => (context.Users.Count() > 0 && context.Blurbs.Count() > 0);
-
-    /// <summary>
-    /// TODO ---> DOES NOT HANDLE FOLLOWING USERS YET!!
-    /// method for seeding db with SeedData dummy data
-    /// </summary>
-    /// <param name="context"></param>
-    public static void SeedDb(BlurbDbContext context)
-    {
-      SeedData seedData = new SeedData();
-
-      //first add all the users
-      foreach (var user in seedData.Users)
-      {
-        context.Users.Add(user);
-      }
-      context.SaveChanges();
-
-      //next all the medias
-      for (int i = 0; i < seedData.Medias.Count; i++)
-      {
-        context.Medias.Add(seedData.Medias[i]);
-      }
-      context.SaveChanges();
-
-      //then add all the tags
-      for (int i = 0; i < seedData.Tags.Count; i++)
-      {
-        context.Tags.Add(seedData.Tags[i]);
-      }
-      context.SaveChanges();
-
-      //then use tags and medias to add all the mediatags
-      for (int i = 0; i < seedData.Medias.Count; i++)
-      {
-        MediaTag m = new MediaTag(seedData.Tags[i], seedData.Medias[i]);
-        context.MediaTags.Add(m);
-      }
-      context.SaveChanges();
-
-      //grab the newly added users
-      var u = context.Users.ToList();
-
-      //add the media and users to the blurbs and add the blurbs
-      for (int i = 0; i < seedData.Blurbs.Count; i++)
-      {
-        seedData.Blurbs[i].Media = seedData.Medias[i];
-        seedData.Blurbs[i].User = u[i];
-        context.Blurbs.Add(seedData.Blurbs[i]);
-      }
-      context.SaveChanges();
-
-    }
-
-
         public static User GetUser(BlurbDbContext context, int userId)
         {
             return context.Users.FirstOrDefault(u => u.UserId == userId);
@@ -395,7 +332,7 @@ namespace Team1P2.Repo.DbManipulationMethods
         /// <param name="blurbs"></param>
         /// <param name="typeFilters"></param>
         /// <returns></returns>
-        public static IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, Dictionary<Models.Models.Type, bool> typeFilters)
+        public static IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, Dictionary<Models.Models.Enums.Type, bool> typeFilters)
         {
             blurbs = blurbs.Where(b => typeFilters[b.Media.Type] == true);
             return blurbs;
