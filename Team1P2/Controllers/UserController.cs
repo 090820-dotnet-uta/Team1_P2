@@ -40,31 +40,10 @@ namespace Team1P2.Controllers
     }
 
     [Produces("application/json")]
-    [HttpPut("edit/username")]
-    public async Task<ActionResult<User>> EditUsername(User user)
+    [HttpPut("edit/user")]
+    public async Task<ActionResult<User>> EditUser(User user)
     {
-      return await _repository.EditUsernameAsync(user.UserId, user.Username);
-    }
-
-    [Produces("application/json")]
-    [HttpPut("edit/screenname")]
-    public async Task<ActionResult<User>> EditScreenName(User user)
-    {
-      return await _repository.EditScreenNameAsync(user.UserId, user.ScreenName);
-    }
-
-    [Produces("application/json")]
-    [HttpPut("edit/name")]
-    public async Task<ActionResult<User>> EditName(User user)
-    {
-      return await _repository.EditNameAsync(user.UserId, user.Name);
-    }
-
-    [Produces("application/json")]
-    [HttpPut("edit/password")]
-    public async Task<ActionResult<User>> EditPassword(User user)
-    {
-      return await _repository.EditPasswordAsync(user.UserId, user.Password);
+      return await _repository.EditUserAsync(user.UserId, user.Username, user.ScreenName, user.Name, user.Password);
     }
 
   }
