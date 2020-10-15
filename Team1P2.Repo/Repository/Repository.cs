@@ -509,11 +509,11 @@ namespace Team1P2.Repo.Repository
             return await _context.Notes.FirstOrDefaultAsync(n => n.NoteId == noteId);
         }
 
-
+        //NEED TO CHANGE THE MODELS BEFORE DOING THIS
         //public async void FollowUser(int curUserId, int toFollowId)
         //{
         //    User curUser = _context.Users.FirstOrDefault(u => u.UserId == curUserId);
-
+           
         //}
 
 
