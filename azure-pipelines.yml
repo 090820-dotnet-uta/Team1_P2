@@ -4,50 +4,49 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- main
+  - main
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: "windows-latest"
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  solution: "**/*.sln"
+  buildPlatform: "Any CPU"
+  buildConfiguration: "Release"
 
 steps:
-- task: NuGetToolInstaller@1
+  - task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+  - task: NuGetCommand@2
+    inputs:
+      restoreSolution: "$(solution)"
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+  - task: VSBuild@1
+    inputs:
+      solution: "$(solution)"
+      msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+      platform: "$(buildPlatform)"
+      configuration: "$(buildConfiguration)"
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+  - task: VSTest@2
+    inputs:
+      platform: "$(buildPlatform)"
+      configuration: "$(buildConfiguration)"
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: true
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: "publish"
+      publishWebProjects: true
+      arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
+      zipAfterPublish: true
 
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure subscription 1(18d07810-bd20-491d-95cd-4ea8dbdbe96b)'
-    appType: 'webApp'
-    WebAppName: 'blurbsapi'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      ConnectionType: "AzureRM"
+      azureSubscription: "Azure subscription 1(18d07810-bd20-491d-95cd-4ea8dbdbe96b)"
+      appType: "webApp"
+      WebAppName: "blurbsapi"
+      packageForLinux: "$(Build.ArtifactStagingDirectory)/**/*.zip"
 # - task: AzureWebApp@1
 #   inputs:
 #     azureSubscription: 'Azure subscription 1(18d07810-bd20-491d-95cd-4ea8dbdbe96b)'
@@ -66,7 +65,6 @@ steps:
 #     appType: 'webApp'
 #     WebAppName: 'blurbsapi'
 #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-
 
 # trigger:
 # - main
@@ -93,9 +91,8 @@ steps:
 #     scannerMode: 'MSBuild'
 #     projectKey: 'atwalk14_BookMartP1'
 #     projectName: 'BookMartP1'
-#     extraProperties: 
+#     extraProperties:
 #       sonar.exclusions=**/obj/**,**/*.dll
-
 
 # - task: DotNetCoreCLI@2
 #   inputs:
