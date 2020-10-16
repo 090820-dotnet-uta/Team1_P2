@@ -245,7 +245,7 @@ namespace Team1P2.Repo.Repository
 
 
         /// <summary>
-        /// Gets all mediaTag objects from the db
+        /// Gets all mediaTag objects from the db.
         /// </summary>
         /// <returns></returns>
         public async Task<List<MediaTag>> GetAllMediaTagsAsync()
