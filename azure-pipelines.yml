@@ -28,7 +28,7 @@ steps:
       scannerMode: 'MSBuild'
       projectKey: 'RevatureTeam1_P2Blurbs'
       projectName: 'P2Blurbs'
-      extraProperties: 'sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"'
+      extraProperties: 'sonar.cs.opencover.reportsPaths="$(Agent.TempDirectory)/**/coverage.opencover.xml"'
 
   - task: VSBuild@1
     inputs:
