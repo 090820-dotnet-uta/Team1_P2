@@ -245,7 +245,7 @@ namespace Team1P2.Repo.Repository
 
 
         /// <summary>
-        /// Gets all mediaTag objects from the db
+        /// Gets all mediaTag objects from the db.
         /// </summary>
         /// <returns></returns>
         public async Task<List<MediaTag>> GetAllMediaTagsAsync()
@@ -676,21 +676,22 @@ namespace Team1P2.Repo.Repository
         /// <returns></returns>
         public async Task<List<Blurb>> FullQuery(User curUser, SortFilterSetting querySettings, int sinceId = 0, int count = 0)
         {
-            var queriedblurbs = FilterByCanSee(_context.Blurbs, curUser);           //Filters out the items the curUser doesn't have permissions to see
+            var queriedblurbs = FilterByCanSee(_context.Blurbs, curUser);          //Filters out the items the curUser doesn't have permissions to see
             queriedblurbs = FilterByType(queriedblurbs, querySettings.TypeFilter); //Filters by the media type
             queriedblurbs = FilterByUser(queriedblurbs, curUser, querySettings.IncludeSelf, querySettings.IncludeFollowering, querySettings.IncludeUnfollowed); //Filters by the specified users
 
             count = (count <= 0 ? queriedblurbs.Count() : count);
 
-            var sortedBlurbs = SortBlurbs(queriedblurbs, querySettings.SortSetting); //Sorts by a given sort setting
+            queriedblurbs = SortBlurbs(queriedblurbs, querySettings.SortSetting); //Sorts by a given sort setting
 
-            if (sinceId > 0) //IF we left off somewhere, find that place, otherwise go to the start
+            if (queriedblurbs.Select(x => x.UserId).Contains(sinceId)) //IF we left off somewhere, find that place, otherwise go to the start
             {
-                return await sortedBlurbs.SkipWhile(b => b.BlurbId != sinceId).Take(count).ToListAsync(); //Skip until you hit the last thing you looked at
+                var toList = queriedblurbs.AsEnumerable();
+                return toList.SkipWhile(b => b.UserId != sinceId).Take(count).ToList();
             }
             else
             {
-                return await sortedBlurbs.Take(count).ToListAsync();
+                return await queriedblurbs.Take(count).ToListAsync();
             }
         }
     }

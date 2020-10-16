@@ -1379,44 +1379,45 @@ namespace Team1P2.Tests
         }
 
 
-        //[Fact]
-        //public async void FullQuery_Pagination()
-        //{
-        //    var options = new DbContextOptionsBuilder<BlurbDbContext>()
-        //        .UseInMemoryDatabase(databaseName: "FullQuery_Pagination")
-        //        .Options;
+        [Fact]
+        public async void FullQuery_Pagination()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "FullQuery_Pagination")
+                .Options;
 
-        //    using (var context = new BlurbDbContext(options))
-        //    {
-        //        Repository repo = new Repository(context);
+            using (var context = new BlurbDbContext(options))
+            {
+                Repository repo = new Repository(context);
 
-        //        //Arrange
-        //        Dictionary<Models.Models.Enums.Type, bool> filterSettings = new Dictionary<Models.Models.Enums.Type, bool>();
-        //        filterSettings.Add(Models.Models.Enums.Type.Movie, true);
-        //        filterSettings.Add(Models.Models.Enums.Type.Game, true);
-        //        filterSettings.Add(Models.Models.Enums.Type.Book, true);
-        //        filterSettings.Add(Models.Models.Enums.Type.TV, true);
-        //        SortFilterSetting querySettings = new SortFilterSetting(SortSetting.MostRecent, filterSettings, true, true, true);
+                //Arrange
+                Dictionary<Models.Models.Enums.Type, bool> filterSettings = new Dictionary<Models.Models.Enums.Type, bool>();
+                filterSettings.Add(Models.Models.Enums.Type.Movie, true);
+                filterSettings.Add(Models.Models.Enums.Type.Game, true);
+                filterSettings.Add(Models.Models.Enums.Type.Book, true);
+                filterSettings.Add(Models.Models.Enums.Type.TV, true);
+                SortFilterSetting querySettings = new SortFilterSetting(SortSetting.MostRecent, filterSettings, true, true, true);
 
-        //        if (!repo.IsSeeded())
-        //        {
-        //            repo.SeedDb();
-        //        }
+                if (!repo.IsSeeded())
+                {
+                    repo.SeedDb();
+                }
 
-        //        User curUser = await context.Users.FirstOrDefaultAsync();
+                User curUser = await context.Users.FirstOrDefaultAsync();
 
-        //        List<Blurb> queriedList = context.Blurbs.ToList();
-        //        queriedList = repo.FilterByCanSee(queriedList.AsQueryable<Blurb>(), curUser).ToList();
-        //        queriedList = repo.FilterByType(queriedList.AsQueryable<Blurb>(), filterSettings).ToList();
-        //        queriedList = repo.FilterByUser(queriedList.AsQueryable<Blurb>(), curUser, querySettings.IncludeSelf, querySettings.IncludeFollowering, querySettings.IncludeUnfollowed).ToList();
-        //        queriedList = repo.SortBlurbs(queriedList.AsQueryable<Blurb>(), querySettings.SortSetting).ToList();
+                List<Blurb> queriedList = context.Blurbs.ToList();
+                queriedList = repo.FilterByCanSee(queriedList.AsQueryable<Blurb>(), curUser).ToList();
+                queriedList = repo.FilterByType(queriedList.AsQueryable<Blurb>(), filterSettings).ToList();
+                queriedList = repo.FilterByUser(queriedList.AsQueryable<Blurb>(), curUser, querySettings.IncludeSelf, querySettings.IncludeFollowering, querySettings.IncludeUnfollowed).ToList();
+                queriedList = repo.SortBlurbs(queriedList.AsQueryable<Blurb>(), querySettings.SortSetting).ToList();
+                queriedList = queriedList.SkipWhile(x => x.UserId != 2).ToList();
 
-        //        //Act
-        //        List<Blurb> queriedBlurbsTest = await repo.FullQuery(curUser, querySettings, 5);
+                //Act
+                List<Blurb> queriedBlurbsTest = await repo.FullQuery(curUser, querySettings, 2);
 
-        //        //Assert
-        //        Assert.Equal(queriedList.Skip(5), queriedBlurbsTest);
-        //    }
-        //}
+                //Assert
+                Assert.Equal(queriedList, queriedBlurbsTest);
+            }
+        }
     }
 }
