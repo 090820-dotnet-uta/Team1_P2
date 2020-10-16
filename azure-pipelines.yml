@@ -21,16 +21,29 @@ steps:
     inputs:
       restoreSolution: "$(solution)"
 
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'blurbsApi'
+      organization: 'atwalk14'
+      scannerMode: 'MSBuild'
+      projectKey: 'RevatureTeam1_P2Blurbs'
+      projectName: 'P2Blurbs'
+      extraProperties: |
+        sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+
   - task: VSBuild@1
     inputs:
       solution: '$(solution)'
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
 
-  - task: VSTest@2
+  - task: DotNetCoreCLI@2
     inputs:
-      platform: "$(buildPlatform)"
-      configuration: "$(buildConfiguration)"
+      command: 'test'
+      projects: '$(solution)'
+      arguments: '--collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover'
+
+  - task: SonarCloudAnalyze@1
 
   - task: DotNetCoreCLI@2
     inputs:
