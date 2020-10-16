@@ -40,14 +40,6 @@ steps:
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'Azure subscription 1(18d07810-bd20-491d-95cd-4ea8dbdbe96b)'
-    appType: 'webApp'
-    appName: 'blurbsapi'
-    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-    deploymentMethod: 'auto'
-
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
