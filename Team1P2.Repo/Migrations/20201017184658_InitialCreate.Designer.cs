@@ -10,7 +10,7 @@ using Team1P2.Repo.Data;
 namespace Team1P2.Repo.Migrations
 {
     [DbContext(typeof(BlurbDbContext))]
-    [Migration("20201015182508_InitialCreate")]
+    [Migration("20201017184658_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -218,8 +218,8 @@ namespace Team1P2.Repo.Migrations
 
             modelBuilder.Entity("Team1P2.Models.Models.Note", b =>
                 {
-                    b.HasOne("Team1P2.Models.Models.Blurb", "Blurb")
-                        .WithMany()
+                    b.HasOne("Team1P2.Models.Models.Blurb", null)
+                        .WithMany("Notes")
                         .HasForeignKey("BlurbId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

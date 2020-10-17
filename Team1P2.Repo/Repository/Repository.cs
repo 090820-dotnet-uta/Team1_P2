@@ -146,7 +146,7 @@ namespace Team1P2.Repo.Repository
         /// <returns></returns>
         public async Task<List<Note>> GetNotesByBlurbIdAsync(int blurbId)
         {
-            return await _context.Notes.Include(n => n.Blurb).Where(n => n.BlurbId == blurbId).ToListAsync();
+            return await _context.Notes.Where(n => n.BlurbId == blurbId).ToListAsync();
         }
 
 
@@ -465,7 +465,7 @@ namespace Team1P2.Repo.Repository
         public async Task<Note> CreateEmptyNoteAsync(int blurbId)
         {
             var blurb = await _context.Blurbs.FirstOrDefaultAsync(x => x.BlurbId == blurbId);
-            Note note = new Note(blurb);
+            Note note = new Note(blurb.BlurbId);
             return note;
         }
 
@@ -480,7 +480,7 @@ namespace Team1P2.Repo.Repository
         public async Task<Note> CreateNoteAsync(int blurbId, string noteBody)
         {
             var blurb = await _context.Blurbs.FirstOrDefaultAsync(x => x.BlurbId == blurbId);
-            Note note = new Note(blurb, noteBody);
+            Note note = new Note(blurb.BlurbId, noteBody);
             return note;
         }
 
@@ -520,7 +520,7 @@ namespace Team1P2.Repo.Repository
         /// <returns></returns>
         public async Task<Note> GetNoteAsync(int noteId)
         {
-            return await _context.Notes.Include(n => n.Blurb).FirstOrDefaultAsync(n => n.NoteId == noteId);
+            return await _context.Notes.FirstOrDefaultAsync(n => n.NoteId == noteId);
         }
 
         public async Task<FollowingEntry> FollowUser(int curUserId, int toFollowId)

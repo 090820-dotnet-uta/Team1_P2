@@ -216,8 +216,8 @@ namespace Team1P2.Repo.Migrations
 
             modelBuilder.Entity("Team1P2.Models.Models.Note", b =>
                 {
-                    b.HasOne("Team1P2.Models.Models.Blurb", "Blurb")
-                        .WithMany()
+                    b.HasOne("Team1P2.Models.Models.Blurb", null)
+                        .WithMany("Notes")
                         .HasForeignKey("BlurbId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

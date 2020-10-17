@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Team1P2.Models.Models.Enums;
 
 namespace Team1P2.Models.Models
@@ -15,6 +16,7 @@ namespace Team1P2.Models.Models
         public int MediaId { get; set; }
         public Media Media { get; set; }
         public DateTime Timestamp { get; set; } = DateTime.Now; //Default timestamp is when the blurb object is made
+        public List<Note> Notes { get; set; } = new List<Note>();
 
 
         public Blurb() { }
@@ -33,6 +35,23 @@ namespace Team1P2.Models.Models
             Name = media.Name;
             Media = media;
             Timestamp = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Constructor for adding notes with blurb
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="score"></param>
+        /// <param name="media"></param>
+        /// <param name="notes"></param>
+        public Blurb(User user, double score, Media media, List<Note> notes)
+        {
+            User = user;
+            Score = score;
+            Name = media.Name;
+            Media = media;
+            Timestamp = DateTime.Now;
+            Notes = notes;
         }
 
 
