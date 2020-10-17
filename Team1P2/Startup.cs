@@ -25,7 +25,7 @@ namespace Team1P2
             services.AddControllers();
             services.AddScoped<Repository>();
             services.AddCors();
-            services.AddDbContext<BlurbDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));
+            services.AddDbContext<BlurbDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
