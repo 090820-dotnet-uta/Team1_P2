@@ -279,6 +279,10 @@ namespace Team1P2.Repo.Repository
           .ToListAsync();
     }
 
+    public async Task<User> LoginAsync(User user)
+    {
+      return await _context.Users.FirstOrDefaultAsync(u => u.Username == user.Username && u.Password == user.Password);
+    }
 
     /// <summary>
     /// Adds the user to the db and saves changes
