@@ -1419,5 +1419,39 @@ namespace Team1P2.Tests
                 Assert.Equal(queriedList, queriedBlurbsTest);
             }
         }
+
+
+        [Fact]
+        public async void UpdateBlurb_RemovedNotes()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "RemovedNotes")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                Repository repo = new Repository(context);
+
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                Media media = new Media();
+                Blurb blurb = new Blurb(user, 7.5, media);
+
+                Note note = new Note() { NoteBody="body" };
+                blurb.Notes.Add(note);
+                blurb = await repo.AddBlurbToDbAsync(blurb);
+
+                Assert.True(context.Blurbs.Contains(blurb));
+                Assert.True(blurb.Notes.Contains(note));
+
+                blurb.Notes = new List<Note>(); //Set the new list to be empty
+
+                //Act
+                blurb = await repo.UpdateBlurb(blurb);
+
+                //Assert
+                Assert.Equal(blurb.Notes, new List<Note>()); //Make sure the context now has the added note
+            }
+        }
     }
 }

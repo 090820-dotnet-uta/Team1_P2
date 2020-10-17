@@ -509,7 +509,7 @@ namespace Team1P2.Repo.Repository
 
             //Deletes all the notes in the db blurb entry that have been excluded in the blurb param
             var blurbDbNotesExcluded = blurbInDb.Notes.Except(blurb.Notes);                    
-            _context.RemoveRange(blurbDbNotesExcluded);
+            _context.Notes.RemoveRange(blurbDbNotesExcluded);
             _context.SaveChanges();
 
             _context.Update(blurb);
