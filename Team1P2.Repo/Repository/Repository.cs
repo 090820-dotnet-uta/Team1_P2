@@ -507,13 +507,10 @@ namespace Team1P2.Repo.Repository
         {
             Blurb blurbInDb = await _context.Blurbs.Include(b => b.Notes).FirstOrDefaultAsync(b => b.BlurbId == blurb.BlurbId);
 
-            foreach (var note in blurbInDb.Notes)
-            {
-                if (!blurb.Notes.Contains(note))
-                {
-                    _context.Remove(note);
-                }
-            }
+            //Deletes all the notes in the db blurb entry that have been excluded in the blurb param
+            var blurbDbNotesExcluded = blurbInDb.Notes.Except(blurb.Notes);                    
+            _context.RemoveRange(blurbDbNotesExcluded);
+            _context.SaveChanges();
 
             _context.Update(blurb);
             _context.SaveChanges();
