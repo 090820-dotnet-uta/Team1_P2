@@ -16,6 +16,8 @@ variables:
   system_accesstoken: $(System.AccessToken)
 
 steps:
+  - scripts: |
+      git config --global --add url."git@github.com:".insteadOf "https://github.com/"
   - checkout: self
     persistCredentials: true    
     
