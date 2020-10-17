@@ -1,13 +1,12 @@
-using Team1P2.Models.Models;
-using Team1P2.Repo.Data;
-using Xunit;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Collections.Generic;
-using Team1P2.Models.Models.Enums;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Team1P2.Models.Models;
+using Team1P2.Models.Models.Enums;
+using Team1P2.Repo.Data;
 using Team1P2.Repo.Repository;
-using System.Xml.Linq;
+using Xunit;
 
 namespace Team1P2.Tests
 {
@@ -845,7 +844,7 @@ namespace Team1P2.Tests
                 blurb = await repo.AddBlurbToDbAsync(blurb);
 
                 //Act
-                blurb = await repo.EditBlurbPrivacyAsync(blurb.BlurbId, (int)Privacy.Private );
+                blurb = await repo.EditBlurbPrivacyAsync(blurb.BlurbId, (int)Privacy.Private);
                 var resultBlurb = context.Blurbs.FirstOrDefault(x => x.BlurbId == blurb.BlurbId);
 
                 //Assert
@@ -982,7 +981,7 @@ namespace Team1P2.Tests
                 List<Blurb> blurbs = new List<Blurb>();
                 blurbs.Add(blurb1);
                 blurbs.Add(blurb2);
-                
+
                 //Act
                 var blurbs2 = await repo.GetAllBlurbsAsync();
 
@@ -1358,7 +1357,8 @@ namespace Team1P2.Tests
                 filterSettings.Add(Models.Models.Enums.Type.TV, true);
                 SortFilterSetting querySettings = new SortFilterSetting(SortSetting.ScoreHL, filterSettings, false, true, true);
 
-                if (!repo.IsSeeded()) {
+                if (!repo.IsSeeded())
+                {
                     repo.SeedDb();
                 }
 

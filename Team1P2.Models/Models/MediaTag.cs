@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Team1P2.Models.Models
+﻿namespace Team1P2.Models.Models
 {
     /// <summary>
     /// This is the join table for genre tags and media times
@@ -19,7 +15,7 @@ namespace Team1P2.Models.Models
         /// <summary>
         /// Empty constructor for MediaTag object
         /// </summary>
-        public MediaTag() {}
+        public MediaTag() { }
 
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace Team1P2.Models.Models
         public List<MediaTag> MediaTags { get; set; } = new List<MediaTag>();
 
 
-        public Media() {}
+        public Media() { }
 
 
         /// <summary>
