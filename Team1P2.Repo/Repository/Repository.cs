@@ -505,6 +505,16 @@ namespace Team1P2.Repo.Repository
         /// <returns></returns>
         public async Task<Blurb> UpdateBlurb(Blurb blurb)
         {
+            Blurb blurbInDb = await _context.Blurbs.Include(b => b.Notes).FirstOrDefaultAsync(b => b.BlurbId == blurb.BlurbId);
+
+            foreach (var note in blurbInDb.Notes)
+            {
+                if (!blurb.Notes.Contains(note))
+                {
+                    _context.Remove(note);
+                }
+            }
+
             _context.Update(blurb);
             _context.SaveChanges();
             return await _context.Blurbs.Include(b => b.Media).Include(b => b.User).Include(b => b.Notes).FirstOrDefaultAsync(b => b.BlurbId == blurb.BlurbId);
