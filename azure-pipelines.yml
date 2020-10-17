@@ -13,11 +13,9 @@ variables:
   solution: "**/*.sln"
   buildPlatform: "Any CPU"
   buildConfiguration: "Release"
-  system_accesstoken: $(System.AccessToken)
 
 steps:
-  - script: |
-      git config --global --add url."git@github.com:".insteadOf "https://github.com/"
+  - script: git config --global --add url."git@github.com:".insteadOf "https://github.com/"
   - checkout: self
     persistCredentials: true    
     
