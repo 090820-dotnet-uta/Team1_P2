@@ -15,10 +15,6 @@ variables:
   buildConfiguration: "Release"
 
 steps:
-  - script: git config --global --add url."git@github.com:".insteadOf "https://github.com/"
-  - checkout: self
-    persistCredentials: true    
-    
   - task: NuGetToolInstaller@1
 
   - task: NuGetCommand@2
