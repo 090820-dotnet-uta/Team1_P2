@@ -13,6 +13,7 @@ variables:
   solution: "**/*.sln"
   buildPlatform: "Any CPU"
   buildConfiguration: "Release"
+  system_accesstoken: $(System.AccessToken)
 
 steps:
   - checkout: self
