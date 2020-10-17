@@ -114,7 +114,7 @@ namespace Team1P2.Repo.Repository
         /// <returns></returns>
         public async Task<Blurb> GetBlurbAsync(int blurbId)
         {
-            return await _context.Blurbs.Include(b => b.Media).Include(b => b.User).FirstOrDefaultAsync(b => b.BlurbId == blurbId);
+            return await _context.Blurbs.Include(b => b.Media).Include(b => b.User).Include(b => b.Notes).FirstOrDefaultAsync(b => b.BlurbId == blurbId);
         }
 
 
@@ -124,7 +124,7 @@ namespace Team1P2.Repo.Repository
         /// <returns></returns>
         public async Task<List<Blurb>> GetAllBlurbsAsync()
         {
-            return await _context.Blurbs.Include(b => b.Media).Include(b => b.User).ToListAsync();
+            return await _context.Blurbs.Include(b => b.Media).Include(b => b.User).Include(b => b.Notes).ToListAsync();
         }
 
 
@@ -507,7 +507,7 @@ namespace Team1P2.Repo.Repository
         {
             _context.Update(blurb);
             _context.SaveChanges();
-            return await _context.Blurbs.FirstOrDefaultAsync(b => b.BlurbId == blurb.BlurbId);
+            return await _context.Blurbs.Include(b => b.Media).Include(b => b.User).Include(b => b.Notes).FirstOrDefaultAsync(b => b.BlurbId == blurb.BlurbId);
         }
 
 
