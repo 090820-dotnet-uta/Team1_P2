@@ -499,11 +499,11 @@ namespace Team1P2.Repo.Repository
 
 
         /// <summary>
-        /// Updates the notes list of a blurb object
+        /// Updates properties blurb object
         /// </summary>
         /// <param name="blurb"></param>
         /// <returns></returns>
-        public async Task<Blurb> UpdateBlurbNotesAsync(Blurb blurb)
+        public async Task<Blurb> UpdateBlurb(Blurb blurb)
         {
             _context.Update(blurb);
             _context.SaveChanges();
