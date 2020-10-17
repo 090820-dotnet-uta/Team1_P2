@@ -17,8 +17,7 @@ variables:
 steps:
   - checkout: self
     persistCredentials: true    
-
-steps:
+    
   - task: NuGetToolInstaller@1
 
   - task: NuGetCommand@2
