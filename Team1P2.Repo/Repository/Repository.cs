@@ -498,6 +498,24 @@ namespace Team1P2.Repo.Repository
         }
 
 
+        /// <summary>
+        /// Updates the notes list of a blurb object
+        /// </summary>
+        /// <param name="blurb"></param>
+        /// <returns></returns>
+        public async Task<Blurb> UpdateBlurbNotesAsync(Blurb blurb)
+        {
+            _context.Update(blurb);
+            _context.SaveChanges();
+            return await _context.Blurbs.FirstOrDefaultAsync(b => b.BlurbId == blurb.BlurbId);
+        }
+
+
+        /// <summary>
+        /// Deletes note from db
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
         public async Task<bool> DeleteNoteAsync(int noteId)
         {
             try
