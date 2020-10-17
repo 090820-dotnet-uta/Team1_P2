@@ -159,7 +159,7 @@ namespace Team1P2.Repo.Repository
         {
             _context.Add(media);
             _context.SaveChanges();
-            return await _context.Medias.FirstOrDefaultAsync(x => x == media);
+            return await _context.Medias.Include(x => x.MediaTags).FirstOrDefaultAsync(x => x == media);
         }
 
 
@@ -289,7 +289,7 @@ namespace Team1P2.Repo.Repository
         {
             _context.Add(user);
             _context.SaveChanges();
-            return await _context.Users.FirstOrDefaultAsync(u => u == user);
+            return await _context.Users.Include(x => x.FollowingEntries).FirstOrDefaultAsync(u => u == user);
         }
 
 
@@ -381,7 +381,7 @@ namespace Team1P2.Repo.Repository
         {
             _context.Add(blurb);
             _context.SaveChanges();
-            return await _context.Blurbs.FirstOrDefaultAsync(b => b == blurb);
+            return await _context.Blurbs.Include(x => x.Media).FirstOrDefaultAsync(b => b == blurb);
         }
 
 
