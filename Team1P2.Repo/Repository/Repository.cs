@@ -251,14 +251,6 @@ namespace Team1P2.Repo.Repository
       return await _context.MediaTags.Include(m => m.Tag).Include(m => m.Media).ToListAsync();
     }
 
-    /// <summary>
-    /// Gets all mediaTag objects from the db.
-    /// </summary>
-    /// <returns></returns>
-    public async Task<List<MediaTag>> GetAllMediaTagsAsync()
-    {
-        return await _context.MediaTags.Include(m => m.Tag).Include(m => m.Media).ToListAsync();
-    }
 
     /// <summary>
     /// Gets a list of tags associated with a given media object
