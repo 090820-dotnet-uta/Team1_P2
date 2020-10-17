@@ -3,9 +3,9 @@ using Team1P2.Models.Models.Enums;
 
 namespace Team1P2.Models.Models
 {
-  public class SeedData
-  {
-    public List<User> Users { get; set; } = new List<User>()
+    public class SeedData
+    {
+        public List<User> Users { get; set; } = new List<User>()
     {
       new User() {
         Username = "username1",
@@ -33,7 +33,7 @@ namespace Team1P2.Models.Models
       }
     };
 
-    public List<Blurb> Blurbs { get; set; } = new List<Blurb>()
+        public List<Blurb> Blurbs { get; set; } = new List<Blurb>()
     {
       new Blurb() {
         Message = "blurb1",
@@ -57,7 +57,7 @@ namespace Team1P2.Models.Models
       },
     };
 
-    public List<Media> Medias { get; set; } = new List<Media>()
+        public List<Media> Medias { get; set; } = new List<Media>()
     {
       new Media() {
         Name="media1",
@@ -77,7 +77,7 @@ namespace Team1P2.Models.Models
       },
     };
 
-    public List<Tag> Tags { get; set; } = new List<Tag>()
+        public List<Tag> Tags { get; set; } = new List<Tag>()
     {
       new Tag() {
         Name="tag1"
@@ -93,7 +93,7 @@ namespace Team1P2.Models.Models
       },
     };
 
-    public List<Note> Notes { get; set; } = new List<Note>()
+        public List<Note> Notes { get; set; } = new List<Note>()
     {
       new Note() {
         NoteBody="notebody1"
@@ -103,5 +103,5 @@ namespace Team1P2.Models.Models
       }
     };
 
-  }
+    }
 }
