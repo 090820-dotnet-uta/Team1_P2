@@ -1,20 +1,18 @@
-﻿using Team1P2.Repo.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using Team1P2.Models.Models;
 using Team1P2.Models.Models.Enums;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading.Tasks;
-using System.Threading;
-using Microsoft.EntityFrameworkCore.Internal;
+using Team1P2.Repo.Data;
 
 namespace Team1P2.Repo.Repository
 {
     public class Repository
     {
-		private readonly BlurbDbContext _context;
+        private readonly BlurbDbContext _context;
 
         /// <summary>
         /// Constructor
@@ -22,7 +20,7 @@ namespace Team1P2.Repo.Repository
         /// <param name="context"></param>
 		public Repository(BlurbDbContext context)
         {
-			_context = context;
+            _context = context;
         }
 
 
@@ -686,8 +684,8 @@ namespace Team1P2.Repo.Repository
 
             if (queriedblurbs.Select(x => x.UserId).Contains(sinceId)) //IF we left off somewhere, find that place, otherwise go to the start
             {
-                var toList = queriedblurbs.AsEnumerable();
-                return toList.SkipWhile(b => b.UserId != sinceId).Take(count).ToList();
+                var toList = queriedblurbs.AsEnumerable(); //VERY TIME INEFFICIENT
+                return toList.SkipWhile(b => b.UserId != sinceId).Take(count).ToList(); 
             }
             else
             {

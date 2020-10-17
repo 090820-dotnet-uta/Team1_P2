@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Text;
 using Team1P2.Models.Models.Enums;
 
 namespace Team1P2.Models.Models
@@ -20,7 +17,7 @@ namespace Team1P2.Models.Models
         public DateTime Timestamp { get; set; } = DateTime.Now; //Default timestamp is when the blurb object is made
 
 
-        public Blurb() {}
+        public Blurb() { }
 
 
         /// <summary>

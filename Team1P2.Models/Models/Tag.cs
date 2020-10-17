@@ -9,7 +9,7 @@ namespace Team1P2.Models.Models
         public List<MediaTag> MediaTags { get; set; } = new List<MediaTag>();
 
 
-        public Tag(){}
+        public Tag() { }
 
 
         /// <summary>
