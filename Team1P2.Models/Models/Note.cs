@@ -4,7 +4,6 @@
     {
         public int NoteId { get; set; }
         public int BlurbId { get; set; }
-        public Blurb Blurb { get; set; }
         public string NoteBody { get; set; } = "";
 
         //STRETCH GOALS
@@ -17,23 +16,23 @@
 
 
         /// <summary>
-        /// Initializes an empty note to a specific blurb
+        /// Adds empty note to blurb
         /// </summary>
-        /// <param name="blurb"></param>
-        public Note(Blurb blurb)
+        /// <param name="blurbId"></param>
+        public Note(int blurbId)
         {
-            Blurb = blurb;
+            BlurbId = blurbId;
         }
 
 
         /// <summary>
-        /// Initializes a note with a specific body to a specific blurb
+        /// Adds note with body
         /// </summary>
-        /// <param name="blurb"></param>
+        /// <param name="blurbId"></param>
         /// <param name="body"></param>
-        public Note(Blurb blurb, string body)
+        public Note(int blurbId, string body)
         {
-            Blurb = blurb;
+            BlurbId = blurbId;
             NoteBody = body;
         }
     }
