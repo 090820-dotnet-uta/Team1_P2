@@ -59,13 +59,6 @@ namespace Team1P2.Controllers
       return await _repository.EditBlurbScoreAsync(blurb.BlurbId, newScore);
     }
 
-    //[Produces("application/json")]
-    //[HttpPut("edit/privacy")]
-    //public async Task<ActionResult<Blurb>> EditPrivacy(Blurb blurb, int privacy)
-    //{
-    //  return await _repository.EditBlurbPrivacyAsync(blurb.BlurbId, privacy);
-    //}
-
     [Produces("application/json")]
     [HttpPut("edit/message")]
     public async Task<ActionResult<Blurb>> EditMessage(Blurb blurb)
