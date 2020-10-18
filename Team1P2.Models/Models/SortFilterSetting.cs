@@ -15,6 +15,11 @@ namespace Team1P2.Models.Models
         public bool IncludeUnfollowed { get; set; }
 
 
+        public SortFilterSetting()
+        {
+
+        }
+
         public SortFilterSetting(SortSetting sortSetting, bool includeSelf, bool includeFollowing, bool includeUnfollowed, bool includeBooks, bool includeMovies, bool includeTV, bool includeGames)
         {
             SortSetting = sortSetting;;
