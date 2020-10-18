@@ -530,7 +530,7 @@ namespace Team1P2.Tests
                 List<Blurb> blurbsFiltered = new List<Blurb>(); //set up empty lists to copy the sorted ones into
 
                 //Act
-                blurbsFiltered = repo.FilterByType(blurbsUnfiltered.AsQueryable<Blurb>(), filterDict).ToList();
+                blurbsFiltered = repo.FilterByType(blurbsUnfiltered.AsQueryable<Blurb>(), false, true, false, false).ToList();
 
                 //Assert
                 Assert.Equal(blurbsFilteredComparison, blurbsFiltered);
@@ -1351,11 +1351,11 @@ namespace Team1P2.Tests
 
                 //Arrange
                 Dictionary<Models.Models.Enums.Type, bool> filterSettings = new Dictionary<Models.Models.Enums.Type, bool>();
-                filterSettings.Add(Models.Models.Enums.Type.Movie, true);
-                filterSettings.Add(Models.Models.Enums.Type.Game, false);
-                filterSettings.Add(Models.Models.Enums.Type.Book, true);
-                filterSettings.Add(Models.Models.Enums.Type.TV, true);
-                SortFilterSetting querySettings = new SortFilterSetting(SortSetting.ScoreHL, filterSettings, false, true, true);
+                bool filterMovies = true;
+                bool filterGames = false;
+                bool filterBooks = true;
+                bool filterTV = true;
+                SortFilterSetting querySettings = new SortFilterSetting(SortSetting.ScoreHL, false, true, true, filterBooks, filterMovies, filterTV, filterGames);
 
                 if (!repo.IsSeeded())
                 {
@@ -1366,12 +1366,12 @@ namespace Team1P2.Tests
 
                 List<Blurb> queriedList = context.Blurbs.ToList();
                 queriedList = repo.FilterByCanSee(queriedList.AsQueryable<Blurb>(), curUser).ToList();
-                queriedList = repo.FilterByType(queriedList.AsQueryable<Blurb>(), filterSettings).ToList();
+                queriedList = repo.FilterByType(queriedList.AsQueryable<Blurb>(), filterMovies, filterBooks, filterGames, filterTV).ToList();
                 queriedList = repo.FilterByUser(queriedList.AsQueryable<Blurb>(), curUser, querySettings.IncludeSelf, querySettings.IncludeFollowering, querySettings.IncludeUnfollowed).ToList();
                 queriedList = repo.SortBlurbs(queriedList.AsQueryable<Blurb>(), querySettings.SortSetting).ToList();
 
                 //Act
-                List<Blurb> queriedBlurbsTest = await repo.FullQuery(curUser, querySettings);
+                List<Blurb> queriedBlurbsTest = await repo.FullQuery(curUser.UserId, querySettings);
 
                 //Assert
                 Assert.Equal(queriedList, queriedBlurbsTest);
@@ -1396,7 +1396,7 @@ namespace Team1P2.Tests
                 filterSettings.Add(Models.Models.Enums.Type.Game, true);
                 filterSettings.Add(Models.Models.Enums.Type.Book, true);
                 filterSettings.Add(Models.Models.Enums.Type.TV, true);
-                SortFilterSetting querySettings = new SortFilterSetting(SortSetting.MostRecent, filterSettings, true, true, true);
+                SortFilterSetting querySettings = new SortFilterSetting(SortSetting.MostRecent, true, true, true, true, true, true, true);
 
                 if (!repo.IsSeeded())
                 {
@@ -1407,13 +1407,13 @@ namespace Team1P2.Tests
 
                 List<Blurb> queriedList = context.Blurbs.ToList();
                 queriedList = repo.FilterByCanSee(queriedList.AsQueryable<Blurb>(), curUser).ToList();
-                queriedList = repo.FilterByType(queriedList.AsQueryable<Blurb>(), filterSettings).ToList();
+                queriedList = repo.FilterByType(queriedList.AsQueryable<Blurb>(), true, true, true, true).ToList();
                 queriedList = repo.FilterByUser(queriedList.AsQueryable<Blurb>(), curUser, querySettings.IncludeSelf, querySettings.IncludeFollowering, querySettings.IncludeUnfollowed).ToList();
                 queriedList = repo.SortBlurbs(queriedList.AsQueryable<Blurb>(), querySettings.SortSetting).ToList();
                 queriedList = queriedList.SkipWhile(x => x.UserId != 2).ToList();
 
                 //Act
-                List<Blurb> queriedBlurbsTest = await repo.FullQuery(curUser, querySettings, 2);
+                List<Blurb> queriedBlurbsTest = await repo.FullQuery(curUser.UserId, querySettings, 2);
 
                 //Assert
                 Assert.Equal(queriedList, queriedBlurbsTest);
