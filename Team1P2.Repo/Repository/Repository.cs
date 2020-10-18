@@ -292,6 +292,16 @@ namespace Team1P2.Repo.Repository
       return await _context.Users.Include(x => x.FollowingEntries).FirstOrDefaultAsync(u => u == user);
     }
 
+    /// <summary>
+    /// mock login
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
+    public async Task<User> LoginAsync(User user)
+    {
+      return await _context.Users.FirstOrDefaultAsync(u => u.Username == user.Username && u.Password == user.Password);
+    }
+
 
     /// <param name="context"></param>
     /// <param name="userId"></param>
@@ -360,13 +370,26 @@ namespace Team1P2.Repo.Repository
     /// <param name="context"></param>
     /// <param name="userId"></param>
     /// <param name="username"></param>
-    public async Task<User> EditUserAsync(int userId, string username, string screenName, string name, string password)
+    public async Task<User> EditUserAsync(User user)
     {
-      var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
-      user.Username = username;
-      user.ScreenName = screenName;
-      user.Name = name;
-      user.Password = password;
+      //User userInDb = await _context.Users.Include(u => u.FollowingEntries).FirstOrDefaultAsync(f => f.UserId == user.UserId);
+
+      ////Deletes all the notes in the db blurb entry that have been excluded in the blurb param
+      //var userDbFollowerEntriesExcluded = userInDb.FollowingEntries.Except(user.FollowingEntries);
+      //_context.FollowingEntries.RemoveRange(userDbFollowerEntriesExcluded);
+      //_context.Entry(userInDb).State = EntityState.Detached;
+      //_context.SaveChanges();
+
+      //_context.Update(user);
+      //_context.Entry(user).State = EntityState.Modified;
+      //_context.SaveChanges();
+
+      //return await _context.Users.Include(f => f.FollowingEntries).FirstOrDefaultAsync(u => u.UserId == user.UserId);
+      var us = await _context.Users.FirstOrDefaultAsync(x => x.UserId == user.UserId);
+      user.Username = user.Username;
+      user.ScreenName = user.ScreenName;
+      user.Name = user.Name;
+      user.Password = user.Password;
       _context.Update(user);
       _context.SaveChanges();
       return await _context.Users.FirstOrDefaultAsync(u => u == user);
@@ -558,6 +581,21 @@ namespace Team1P2.Repo.Repository
       _context.Add(newEntry);
       _context.SaveChanges();
       return await _context.FollowingEntries.FirstOrDefaultAsync(x => x == newEntry);
+    }
+
+    public async Task<bool> UnfollowUser(int curUserId, int toUnfollowId)
+    {
+      try
+      {
+        var toRemove = await _context.FollowingEntries.FirstOrDefaultAsync(f => f.UserId == curUserId && f.FollowedUserId == toUnfollowId);
+        _context.Remove(toRemove);
+        _context.SaveChanges();
+        return true;
+      }
+      catch (InvalidOperationException e)
+      {
+        return false;
+      }
     }
 
 
