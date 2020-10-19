@@ -133,9 +133,9 @@ namespace Team1P2.Repo.Repository
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    public async Task<List<Blurb>> GetBlurbsByUserIdAsync(IQueryable<Blurb> blurbs, int userId)
+    public List<Blurb> GetBlurbsByUserId(List<Blurb> blurbs, int userId)
     {
-      return await blurbs.Include(b => b.Media).Include(b => b.User).Where(b => b.UserId == userId).ToListAsync();
+      return blurbs.Where(b => b.UserId == userId).ToList();
     }
 
 
