@@ -40,6 +40,13 @@ namespace Team1P2.Controllers
     }
 
     [Produces("application/json")]
+    [HttpGet("find/all/following/{userId}")]
+    public async Task<ActionResult<List<int>>> FindFollowing(int userId)
+    {
+      return await _repository.GetFollowing(userId);
+    }
+
+    [Produces("application/json")]
     [HttpPost("add")]
     public async Task<ActionResult<User>> Add(User user)
     {

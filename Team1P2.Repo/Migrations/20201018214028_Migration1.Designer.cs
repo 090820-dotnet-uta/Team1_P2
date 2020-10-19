@@ -10,7 +10,7 @@ using Team1P2.Repo.Data;
 namespace Team1P2.Repo.Migrations
 {
     [DbContext(typeof(BlurbDbContext))]
-    [Migration("20201018194855_Migration1")]
+    [Migration("20201018214028_Migration1")]
     partial class Migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

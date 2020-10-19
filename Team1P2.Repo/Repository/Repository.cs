@@ -659,6 +659,12 @@ namespace Team1P2.Repo.Repository
       return await _context.Users.Where(u => followersIds.Contains(u.UserId)).ToListAsync();
     }
 
+    public async Task<List<int>> GetFollowing(int userId)
+    {
+      var followersIds = _context.FollowingEntries.Where(f => f.UserId == userId).Select(x => x.FollowedUserId); //Gets the userIds of all the ppl following the user
+      return await _context.Users.Where(u => followersIds.Contains(u.UserId)).Select(i => i.UserId).ToListAsync();
+    }
+
 
     /// <summary>
     /// Returns true if the user has permission to see the blurb, false if they do not
