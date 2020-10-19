@@ -1378,7 +1378,9 @@ namespace Team1P2.Tests
             }
         }
 
-
+        /// <summary>
+        /// it's a unit test
+        /// </summary>
         [Fact]
         public async void FullQuery_Pagination()
         {
