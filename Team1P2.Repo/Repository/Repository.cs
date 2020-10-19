@@ -279,11 +279,6 @@ namespace Team1P2.Repo.Repository
           .ToListAsync();
     }
 
-    public async Task<User> LoginAsync(User user)
-    {
-      return await _context.Users.FirstOrDefaultAsync(u => u.Username == user.Username && u.Password == user.Password);
-    }
-
     /// <summary>
     /// Adds the user to the db and saves changes
     /// </summary>
@@ -765,10 +760,10 @@ namespace Team1P2.Repo.Repository
 
       queriedblurbs = SortBlurbs(queriedblurbs, querySettings.SortSetting); //Sorts by a given sort setting
 
-      if (queriedblurbs.Select(x => x.UserId).Contains(sinceId)) //IF we left off somewhere, find that place, otherwise go to the start
+      if (queriedblurbs.Select(x => x.BlurbId).Contains(sinceId)) //IF we left off somewhere, find that place, otherwise go to the start
       {
         var toList = queriedblurbs.AsEnumerable(); //VERY TIME INEFFICIENT
-        return toList.SkipWhile(b => b.UserId != sinceId).Take(count).ToList();
+        return toList.SkipWhile(b => b.BlurbId != sinceId).Skip(1).Take(count).ToList();
       }
       else
       {
