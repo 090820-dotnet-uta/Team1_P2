@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Team1P2.Models.Models;
 using Team1P2.Repo.Repository;
@@ -32,10 +33,11 @@ namespace Team1P2.Controllers
     }
 
     [Produces("application/json")]
-    [HttpGet("find/all/user/{userId}")]
-    public async Task<ActionResult<List<Blurb>>> FindAllByUser(int userId)
+    [HttpPost("find/all/user/{userId}")]
+    public async Task<ActionResult<List<Blurb>>> FindAllByUser(int userId, FullQueryObj obj)
     {
-      return await _repository.GetBlurbsByUserIdAsync(userId);
+            var blurbs = await _repository.FullQuery(userId, obj.Settings, obj.SinceId, obj.Span);
+      return await _repository.GetBlurbsByUserIdAsync(blurbs.AsQueryable<Blurb>(), userId);
     }
 
     [Produces("application/json")]

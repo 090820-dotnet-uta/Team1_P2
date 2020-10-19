@@ -129,13 +129,13 @@ namespace Team1P2.Repo.Repository
 
 
     /// <summary>
-    /// Gets all blurbs for a specific user
+    /// Filters out all blurbs not attributed to the user
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    public async Task<List<Blurb>> GetBlurbsByUserIdAsync(int userId)
+    public async Task<List<Blurb>> GetBlurbsByUserIdAsync(IQueryable<Blurb> blurbs, int userId)
     {
-      return await _context.Blurbs.Include(b => b.Media).Include(b => b.User).Where(b => b.UserId == userId).ToListAsync();
+      return await blurbs.Include(b => b.Media).Include(b => b.User).Where(b => b.UserId == userId).ToListAsync();
     }
 
 
