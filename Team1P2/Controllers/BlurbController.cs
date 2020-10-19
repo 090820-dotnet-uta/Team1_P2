@@ -33,11 +33,11 @@ namespace Team1P2.Controllers
     }
 
     [Produces("application/json")]
-    [HttpPost("find/all/user/{userId}")]
-    public async Task<ActionResult<List<Blurb>>> FindAllByUser(int userId, FullQueryObj obj)
+    [HttpPost("query/user/{userId}/{byId}")]
+    public async Task<ActionResult<List<Blurb>>> FindAllByUser(int userId, int byId, FullQueryObj obj)
     {
             var blurbs = await _repository.FullQuery(userId, obj.Settings, obj.SinceId, obj.Span);
-      return await _repository.GetBlurbsByUserIdAsync(blurbs.AsQueryable<Blurb>(), userId);
+      return  _repository.GetBlurbsByUserId(blurbs, byId);
     }
 
     [Produces("application/json")]

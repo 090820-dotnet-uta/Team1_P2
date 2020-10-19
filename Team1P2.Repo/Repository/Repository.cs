@@ -133,9 +133,9 @@ namespace Team1P2.Repo.Repository
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    public async Task<List<Blurb>> GetBlurbsByUserIdAsync(IQueryable<Blurb> blurbs, int userId)
+    public List<Blurb> GetBlurbsByUserId(List<Blurb> blurbs, int userId)
     {
-      return await blurbs.Include(b => b.Media).Include(b => b.User).Where(b => b.UserId == userId).ToListAsync();
+      return blurbs.Where(b => b.UserId == userId).ToList();
     }
 
 
@@ -643,14 +643,14 @@ namespace Team1P2.Repo.Repository
     /// <returns></returns>
     public IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, bool includeMovies, bool includeBooks, bool includeGames, bool includeTV)
     {
-            blurbs = blurbs.Include(b => b.User).Include(b => b.Media)
-                .Where(b =>
-                       (b.Media.Type == Models.Models.Enums.Type.Book ? includeBooks :
-                       (b.Media.Type == Models.Models.Enums.Type.Movie ? includeMovies :
-                       (b.Media.Type == Models.Models.Enums.Type.TV ? includeTV :
-                       includeGames))));
+      blurbs = blurbs.Include(b => b.User).Include(b => b.Media)
+          .Where(b =>
+                 (b.Media.Type == Models.Models.Enums.Type.Book ? includeBooks :
+                 (b.Media.Type == Models.Models.Enums.Type.Movie ? includeMovies :
+                 (b.Media.Type == Models.Models.Enums.Type.TV ? includeTV :
+                 includeGames))));
 
-            return blurbs;
+      return blurbs;
     }
 
 
@@ -664,10 +664,10 @@ namespace Team1P2.Repo.Repository
       return await _context.Users.Where(u => followersIds.Contains(u.UserId)).ToListAsync();
     }
 
-    public async Task<List<int>> GetFollowing(int userId)
+    public async Task<List<User>> GetFollowing(int userId)
     {
       var followersIds = _context.FollowingEntries.Where(f => f.UserId == userId).Select(x => x.FollowedUserId); //Gets the userIds of all the ppl following the user
-      return await _context.Users.Where(u => followersIds.Contains(u.UserId)).Select(i => i.UserId).ToListAsync();
+      return await _context.Users.Where(u => followersIds.Contains(u.UserId)).ToListAsync();
     }
 
 
@@ -751,7 +751,7 @@ namespace Team1P2.Repo.Repository
     /// <returns></returns>
     public async Task<List<Blurb>> FullQuery(int userId, SortFilterSetting querySettings, int sinceId = 0, int count = 0)
     {
-            var curUser = _context.Users.FirstOrDefault(u => u.UserId == userId);
+      var curUser = _context.Users.FirstOrDefault(u => u.UserId == userId);
       var queriedblurbs = FilterByCanSee(_context.Blurbs, curUser);          //Filters out the items the curUser doesn't have permissions to see
       queriedblurbs = FilterByType(queriedblurbs, querySettings.IncludeMovies, querySettings.IncludeBooks, querySettings.IncludeGames, querySettings.IncludeTV); //Filters by the media type
       queriedblurbs = FilterByUser(queriedblurbs, curUser, querySettings.IncludeSelf, querySettings.IncludeFollowing, querySettings.IncludeUnfollowed); //Filters by the specified users
