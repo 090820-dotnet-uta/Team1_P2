@@ -75,10 +75,10 @@ namespace Team1P2.Controllers
     }
 
     [Produces("application/json")]
-    [HttpDelete("remove/follow/{toRemove}")]
-    public async Task<ActionResult<bool>> RemoveFollower(User user, int toRemove)
+    [HttpDelete("remove/follow/{currentUser}/{toRemove}")]
+    public async Task<ActionResult<bool>> RemoveFollower(int currentUser, int toRemove)
     {
-      return await _repository.UnfollowUser(user.UserId, toRemove);
+      return await _repository.UnfollowUser(currentUser, toRemove);
     }
   }
 }
