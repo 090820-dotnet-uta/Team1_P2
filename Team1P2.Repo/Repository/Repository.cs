@@ -296,6 +296,16 @@ namespace Team1P2.Repo.Repository
       return await _context.Users.Include(x => x.FollowingEntries).FirstOrDefaultAsync(u => u == user);
     }
 
+    /// <summary>
+    /// mock login
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
+    public async Task<User> LoginAsync(User user)
+    {
+      return await _context.Users.FirstOrDefaultAsync(u => u.Username == user.Username && u.Password == user.Password);
+    }
+
 
     /// <param name="context"></param>
     /// <param name="userId"></param>
@@ -364,13 +374,26 @@ namespace Team1P2.Repo.Repository
     /// <param name="context"></param>
     /// <param name="userId"></param>
     /// <param name="username"></param>
-    public async Task<User> EditUserAsync(int userId, string username, string screenName, string name, string password)
+    public async Task<User> EditUserAsync(User user)
     {
-      var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
-      user.Username = username;
-      user.ScreenName = screenName;
-      user.Name = name;
-      user.Password = password;
+      //User userInDb = await _context.Users.Include(u => u.FollowingEntries).FirstOrDefaultAsync(f => f.UserId == user.UserId);
+
+      ////Deletes all the notes in the db blurb entry that have been excluded in the blurb param
+      //var userDbFollowerEntriesExcluded = userInDb.FollowingEntries.Except(user.FollowingEntries);
+      //_context.FollowingEntries.RemoveRange(userDbFollowerEntriesExcluded);
+      //_context.Entry(userInDb).State = EntityState.Detached;
+      //_context.SaveChanges();
+
+      //_context.Update(user);
+      //_context.Entry(user).State = EntityState.Modified;
+      //_context.SaveChanges();
+
+      //return await _context.Users.Include(f => f.FollowingEntries).FirstOrDefaultAsync(u => u.UserId == user.UserId);
+      var us = await _context.Users.FirstOrDefaultAsync(x => x.UserId == user.UserId);
+      user.Username = user.Username;
+      user.ScreenName = user.ScreenName;
+      user.Name = user.Name;
+      user.Password = user.Password;
       _context.Update(user);
       _context.SaveChanges();
       return await _context.Users.FirstOrDefaultAsync(u => u == user);
@@ -564,6 +587,21 @@ namespace Team1P2.Repo.Repository
       return await _context.FollowingEntries.FirstOrDefaultAsync(x => x == newEntry);
     }
 
+    public async Task<bool> UnfollowUser(int curUserId, int toUnfollowId)
+    {
+      try
+      {
+        var toRemove = await _context.FollowingEntries.FirstOrDefaultAsync(f => f.UserId == curUserId && f.FollowedUserId == toUnfollowId);
+        _context.Remove(toRemove);
+        _context.SaveChanges();
+        return true;
+      }
+      catch (InvalidOperationException e)
+      {
+        return false;
+      }
+    }
+
 
     /// <summary>
     /// Sorts a list of blurbs by a given sort setting and returns the sorted list
@@ -608,10 +646,16 @@ namespace Team1P2.Repo.Repository
     /// <param name="blurbs"></param>
     /// <param name="typeFilters"></param>
     /// <returns></returns>
-    public IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, Dictionary<Models.Models.Enums.Type, bool> typeFilters)
+    public IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, bool includeMovies, bool includeBooks, bool includeGames, bool includeTV)
     {
-      blurbs = blurbs.Where(b => typeFilters[b.Media.Type] == true);
-      return blurbs;
+            blurbs = blurbs
+                .Where(b =>
+                       (b.Media.Type == Models.Models.Enums.Type.Book ? includeBooks :
+                       (b.Media.Type == Models.Models.Enums.Type.Movie ? includeMovies :
+                       (b.Media.Type == Models.Models.Enums.Type.TV ? includeTV :
+                       includeGames))));
+
+            return blurbs;
     }
 
 
@@ -623,6 +667,12 @@ namespace Team1P2.Repo.Repository
     {
       var followersIds = _context.FollowingEntries.Where(f => f.FollowedUserId == userId).Select(x => x.UserId); //Gets the userIds of all the ppl following the user
       return await _context.Users.Where(u => followersIds.Contains(u.UserId)).ToListAsync();
+    }
+
+    public async Task<List<int>> GetFollowing(int userId)
+    {
+      var followersIds = _context.FollowingEntries.Where(f => f.UserId == userId).Select(x => x.FollowedUserId); //Gets the userIds of all the ppl following the user
+      return await _context.Users.Where(u => followersIds.Contains(u.UserId)).Select(i => i.UserId).ToListAsync();
     }
 
 
@@ -704,10 +754,11 @@ namespace Team1P2.Repo.Repository
     /// <param name="curUser"></param>
     /// <param name="querySettings"></param>
     /// <returns></returns>
-    public async Task<List<Blurb>> FullQuery(User curUser, SortFilterSetting querySettings, int sinceId = 0, int count = 0)
+    public async Task<List<Blurb>> FullQuery(int userId, SortFilterSetting querySettings, int sinceId = 0, int count = 0)
     {
+            var curUser = _context.Users.FirstOrDefault(u => u.UserId == userId);
       var queriedblurbs = FilterByCanSee(_context.Blurbs, curUser);          //Filters out the items the curUser doesn't have permissions to see
-      queriedblurbs = FilterByType(queriedblurbs, querySettings.TypeFilter); //Filters by the media type
+      queriedblurbs = FilterByType(queriedblurbs, querySettings.IncludeMovies, querySettings.IncludeBooks, querySettings.IncludeGames, querySettings.IncludeTV); //Filters by the media type
       queriedblurbs = FilterByUser(queriedblurbs, curUser, querySettings.IncludeSelf, querySettings.IncludeFollowering, querySettings.IncludeUnfollowed); //Filters by the specified users
 
       count = (count <= 0 ? queriedblurbs.Count() : count);

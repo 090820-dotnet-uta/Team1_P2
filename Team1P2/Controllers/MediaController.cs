@@ -30,5 +30,12 @@ namespace Team1P2.Controllers
         {
             return await _repository.GetAllMediaAsync();
         }
+
+        [Produces("application/json")]
+        [HttpGet("add")]
+        public async Task<ActionResult<Media>> Add(Media media)
+        {
+            return await _repository.AddMediaToDbAsync(media);
+        }
     }
 }

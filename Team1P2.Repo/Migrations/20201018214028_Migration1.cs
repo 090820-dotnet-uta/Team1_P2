@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Team1P2.Repo.Migrations
 {
-    public partial class migration1 : Migration
+    public partial class Migration1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -113,8 +113,8 @@ namespace Team1P2.Repo.Migrations
                 {
                     FollowingEntryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    FollowedUserId = table.Column<int>(nullable: false)
+                    FollowedUserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

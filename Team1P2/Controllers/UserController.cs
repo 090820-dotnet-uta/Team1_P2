@@ -33,6 +33,20 @@ namespace Team1P2.Controllers
     }
 
     [Produces("application/json")]
+    [HttpGet("find/all/follower/{userId}")]
+    public async Task<ActionResult<List<User>>> FindFollowers(int userId)
+    {
+      return await _repository.GetFollowers(userId);
+    }
+
+    [Produces("application/json")]
+    [HttpGet("find/all/following/{userId}")]
+    public async Task<ActionResult<List<int>>> FindFollowing(int userId)
+    {
+      return await _repository.GetFollowing(userId);
+    }
+
+    [Produces("application/json")]
     [HttpPost("add")]
     public async Task<ActionResult<User>> Add(User user)
     {
@@ -47,11 +61,24 @@ namespace Team1P2.Controllers
     }
 
     [Produces("application/json")]
+    [HttpPost("follow/{toFollowId}")]
+    public async Task<ActionResult<FollowingEntry>> Follow(User user, int toFollowId)
+    {
+      return await _repository.FollowUser(user.UserId, toFollowId);
+    }
+
+    [Produces("application/json")]
     [HttpPut("edit/user")]
     public async Task<ActionResult<User>> EditUser(User user)
     {
-      return await _repository.EditUserAsync(user.UserId, user.Username, user.ScreenName, user.Name, user.Password);
+      return await _repository.EditUserAsync(user);
     }
 
+    [Produces("application/json")]
+    [HttpDelete("remove/follow/{toRemove}")]
+    public async Task<ActionResult<bool>> RemoveFollower(User user, int toRemove)
+    {
+      return await _repository.UnfollowUser(user.UserId, toRemove);
+    }
   }
 }
