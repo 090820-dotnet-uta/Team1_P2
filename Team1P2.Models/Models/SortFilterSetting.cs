@@ -6,19 +6,25 @@ namespace Team1P2.Models.Models
     public class SortFilterSetting
     {
         public SortSetting SortSetting { get; set; }
-        public Dictionary<Type, bool> TypeFilter { get; set; }
+        public bool IncludeBooks { get; set; }
+        public bool IncludeMovies { get; set; }
+        public bool IncludeTV { get; set; }
+        public bool IncludeGames { get; set; }
         public bool IncludeSelf { get; set; }
         public bool IncludeFollowering { get; set; }
         public bool IncludeUnfollowed { get; set; }
 
 
-        public SortFilterSetting(SortSetting sortSetting, Dictionary<Type, bool> typeFilter, bool includeSelf, bool includeFollowing, bool includeUnfollowed)
+        public SortFilterSetting(SortSetting sortSetting, bool includeSelf, bool includeFollowing, bool includeUnfollowed, bool includeBooks, bool includeMovies, bool includeTV, bool includeGames)
         {
-            SortSetting = sortSetting;
-            TypeFilter = typeFilter;
+            SortSetting = sortSetting;;
             IncludeSelf = includeSelf;
             IncludeFollowering = includeFollowing;
             IncludeUnfollowed = includeUnfollowed;
+            IncludeGames = includeGames;
+            IncludeBooks = includeBooks;
+            IncludeMovies = includeMovies;
+            IncludeTV = includeTV;
         }
 
 
@@ -35,11 +41,10 @@ namespace Team1P2.Models.Models
             IncludeSelf = includeSelf;
             IncludeFollowering = includeFollowing;
             IncludeUnfollowed = includeUnfollowed;
-            TypeFilter = new Dictionary<Type, bool>();
-            TypeFilter.Add(Type.Book, true);
-            TypeFilter.Add(Type.Movie, true);
-            TypeFilter.Add(Type.Game, true);
-            TypeFilter.Add(Type.TV, true);
+            IncludeBooks = true;
+            IncludeTV = true;
+            IncludeGames = true;
+            IncludeMovies = true;
         }
     }
 }

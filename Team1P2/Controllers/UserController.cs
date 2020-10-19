@@ -80,6 +80,5 @@ namespace Team1P2.Controllers
     {
       return await _repository.UnfollowUser(user.UserId, toRemove);
     }
-
   }
 }

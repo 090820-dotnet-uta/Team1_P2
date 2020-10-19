@@ -279,6 +279,10 @@ namespace Team1P2.Repo.Repository
           .ToListAsync();
     }
 
+    public async Task<User> LoginAsync(User user)
+    {
+      return await _context.Users.FirstOrDefaultAsync(u => u.Username == user.Username && u.Password == user.Password);
+    }
 
     /// <summary>
     /// Adds the user to the db and saves changes
@@ -642,10 +646,16 @@ namespace Team1P2.Repo.Repository
     /// <param name="blurbs"></param>
     /// <param name="typeFilters"></param>
     /// <returns></returns>
-    public IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, Dictionary<Models.Models.Enums.Type, bool> typeFilters)
+    public IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, bool includeMovies, bool includeBooks, bool includeGames, bool includeTV)
     {
-      blurbs = blurbs.Where(b => typeFilters[b.Media.Type] == true);
-      return blurbs;
+            blurbs = blurbs
+                .Where(b =>
+                       (b.Media.Type == Models.Models.Enums.Type.Book ? includeBooks :
+                       (b.Media.Type == Models.Models.Enums.Type.Movie ? includeMovies :
+                       (b.Media.Type == Models.Models.Enums.Type.TV ? includeTV :
+                       includeGames))));
+
+            return blurbs;
     }
 
 
@@ -744,10 +754,11 @@ namespace Team1P2.Repo.Repository
     /// <param name="curUser"></param>
     /// <param name="querySettings"></param>
     /// <returns></returns>
-    public async Task<List<Blurb>> FullQuery(User curUser, SortFilterSetting querySettings, int sinceId = 0, int count = 0)
+    public async Task<List<Blurb>> FullQuery(int userId, SortFilterSetting querySettings, int sinceId = 0, int count = 0)
     {
+            var curUser = _context.Users.FirstOrDefault(u => u.UserId == userId);
       var queriedblurbs = FilterByCanSee(_context.Blurbs, curUser);          //Filters out the items the curUser doesn't have permissions to see
-      queriedblurbs = FilterByType(queriedblurbs, querySettings.TypeFilter); //Filters by the media type
+      queriedblurbs = FilterByType(queriedblurbs, querySettings.IncludeMovies, querySettings.IncludeBooks, querySettings.IncludeGames, querySettings.IncludeTV); //Filters by the media type
       queriedblurbs = FilterByUser(queriedblurbs, curUser, querySettings.IncludeSelf, querySettings.IncludeFollowering, querySettings.IncludeUnfollowed); //Filters by the specified users
 
       count = (count <= 0 ? queriedblurbs.Count() : count);

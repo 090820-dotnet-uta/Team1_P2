@@ -73,5 +73,13 @@ namespace Team1P2.Controllers
       return _repository.DeleteBlurb(blurbId);
     }
 
-  }
+
+        [Produces("application/json")]
+        [HttpGet("fullquery/{userid}")]
+        public async Task<ActionResult<List<Blurb>>> fullquery(int userid, FullQueryObj obj)
+        {
+            return await _repository.FullQuery(userid, obj.Settings, obj.SinceId, obj.Span);
+        }
+
+    }
 }
