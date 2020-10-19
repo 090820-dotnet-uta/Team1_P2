@@ -1024,7 +1024,7 @@ namespace Team1P2.Tests
                 blurbs.Add(blurb2);
 
                 //Act
-                var blurbs2 = await repo.GetBlurbsByUserIdAsync(user.UserId);
+                var blurbs2 = await repo.GetBlurbsByUserIdAsync(context.Blurbs, user.UserId);
 
                 //Assert
                 Assert.Equal(blurbs, blurbs2);
