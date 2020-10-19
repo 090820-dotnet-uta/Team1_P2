@@ -556,7 +556,7 @@ namespace Team1P2.Repo.Repository
         _context.SaveChanges();
         return true;
       }
-      catch (InvalidOperationException e)
+      catch (Exception e)
       {
         return false;
       }
@@ -591,7 +591,7 @@ namespace Team1P2.Repo.Repository
         _context.SaveChanges();
         return true;
       }
-      catch (InvalidOperationException e)
+      catch (Exception e)
       {
         return false;
       }
