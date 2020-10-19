@@ -720,7 +720,7 @@ namespace Team1P2.Repo.Repository
     /// <returns></returns>
     public IQueryable<Blurb> FilterByUser(IQueryable<Blurb> blurbs, User curUser, bool includeSelf, bool includeFollowing, bool includeUnfollowed)
     {
-      var followingListIds = curUser.GetFollowingList().Select(f => f.UserId);
+      var followingListIds = _context.FollowingEntries.Where(e => e.UserId == curUser.UserId).Select(e => e.FollowedUserId);
       blurbs = blurbs.Include(b => b.User).Include(b => b.Media)
           .Where(b =>
                  (includeFollowing && b.UserId != curUser.UserId ? followingListIds.Contains(b.UserId) : false)     //If the blurb is from someone you're following and the setting includes them, return true
