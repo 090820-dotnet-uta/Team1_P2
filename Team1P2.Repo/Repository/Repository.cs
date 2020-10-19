@@ -643,14 +643,14 @@ namespace Team1P2.Repo.Repository
     /// <returns></returns>
     public IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, bool includeMovies, bool includeBooks, bool includeGames, bool includeTV)
     {
-            blurbs = blurbs.Include(b => b.User).Include(b => b.Media)
-                .Where(b =>
-                       (b.Media.Type == Models.Models.Enums.Type.Book ? includeBooks :
-                       (b.Media.Type == Models.Models.Enums.Type.Movie ? includeMovies :
-                       (b.Media.Type == Models.Models.Enums.Type.TV ? includeTV :
-                       includeGames))));
+      blurbs = blurbs.Include(b => b.User).Include(b => b.Media)
+          .Where(b =>
+                 (b.Media.Type == Models.Models.Enums.Type.Book ? includeBooks :
+                 (b.Media.Type == Models.Models.Enums.Type.Movie ? includeMovies :
+                 (b.Media.Type == Models.Models.Enums.Type.TV ? includeTV :
+                 includeGames))));
 
-            return blurbs;
+      return blurbs;
     }
 
 
@@ -751,7 +751,7 @@ namespace Team1P2.Repo.Repository
     /// <returns></returns>
     public async Task<List<Blurb>> FullQuery(int userId, SortFilterSetting querySettings, int sinceId = 0, int count = 0)
     {
-            var curUser = _context.Users.FirstOrDefault(u => u.UserId == userId);
+      var curUser = _context.Users.FirstOrDefault(u => u.UserId == userId);
       var queriedblurbs = FilterByCanSee(_context.Blurbs, curUser);          //Filters out the items the curUser doesn't have permissions to see
       queriedblurbs = FilterByType(queriedblurbs, querySettings.IncludeMovies, querySettings.IncludeBooks, querySettings.IncludeGames, querySettings.IncludeTV); //Filters by the media type
       queriedblurbs = FilterByUser(queriedblurbs, curUser, querySettings.IncludeSelf, querySettings.IncludeFollowing, querySettings.IncludeUnfollowed); //Filters by the specified users
