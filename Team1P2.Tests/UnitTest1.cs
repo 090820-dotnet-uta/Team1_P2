@@ -1412,7 +1412,7 @@ namespace Team1P2.Tests
                 queriedList = repo.FilterByType(queriedList.AsQueryable<Blurb>(), true, true, true, true).ToList();
                 queriedList = repo.FilterByUser(queriedList.AsQueryable<Blurb>(), curUser, querySettings.IncludeSelf, querySettings.IncludeFollowing, querySettings.IncludeUnfollowed).ToList();
                 queriedList = repo.SortBlurbs(queriedList.AsQueryable<Blurb>(), querySettings.SortSetting).ToList();
-                queriedList = queriedList.SkipWhile(x => x.UserId != 2).ToList();
+                queriedList = queriedList.SkipWhile(x => x.UserId != 2).Skip(1).ToList();
 
                 //Act
                 List<Blurb> queriedBlurbsTest = await repo.FullQuery(curUser.UserId, querySettings, 2);
