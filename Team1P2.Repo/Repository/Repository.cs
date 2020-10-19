@@ -371,27 +371,17 @@ namespace Team1P2.Repo.Repository
     /// <param name="username"></param>
     public async Task<User> EditUserAsync(User user)
     {
-      //User userInDb = await _context.Users.Include(u => u.FollowingEntries).FirstOrDefaultAsync(f => f.UserId == user.UserId);
+      User userInDb = await _context.Users.FirstOrDefaultAsync(f => f.UserId == user.UserId);
 
-      ////Deletes all the notes in the db blurb entry that have been excluded in the blurb param
-      //var userDbFollowerEntriesExcluded = userInDb.FollowingEntries.Except(user.FollowingEntries);
-      //_context.FollowingEntries.RemoveRange(userDbFollowerEntriesExcluded);
-      //_context.Entry(userInDb).State = EntityState.Detached;
-      //_context.SaveChanges();
-
-      //_context.Update(user);
-      //_context.Entry(user).State = EntityState.Modified;
-      //_context.SaveChanges();
-
-      //return await _context.Users.Include(f => f.FollowingEntries).FirstOrDefaultAsync(u => u.UserId == user.UserId);
-      var us = await _context.Users.FirstOrDefaultAsync(x => x.UserId == user.UserId);
-      user.Username = user.Username;
-      user.ScreenName = user.ScreenName;
-      user.Name = user.Name;
-      user.Password = user.Password;
-      _context.Update(user);
+      //Deletes all the notes in the db blurb entry that have been excluded in the blurb param
+      _context.Entry(userInDb).State = EntityState.Detached;
       _context.SaveChanges();
-      return await _context.Users.FirstOrDefaultAsync(u => u == user);
+
+      _context.Update(user);
+      _context.Entry(user).State = EntityState.Modified;
+      _context.SaveChanges();
+
+      return await _context.Users.FirstOrDefaultAsync(u => u.UserId == user.UserId);
     }
 
     /// <summary>
