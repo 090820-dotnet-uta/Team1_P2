@@ -11,6 +11,11 @@ namespace Team1P2.Models.Models
         public int Span { get; set; } = -1;
 
 
+        public FullQueryObj()
+        {
+
+        }
+
         public FullQueryObj(SortFilterSetting settings, int sinceId, int span)
         {
             Settings = settings;
