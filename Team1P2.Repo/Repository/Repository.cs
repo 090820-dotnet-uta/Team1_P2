@@ -403,7 +403,7 @@ namespace Team1P2.Repo.Repository
     {
       _context.Add(blurb);
       _context.SaveChanges();
-      return await _context.Blurbs.Include(x => x.Media).FirstOrDefaultAsync(b => b == blurb);
+      return await _context.Blurbs.Include(x => x.Media).Include(x => x.User).FirstOrDefaultAsync(b => b == blurb);
     }
 
 
