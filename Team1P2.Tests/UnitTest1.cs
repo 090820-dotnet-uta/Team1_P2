@@ -1367,7 +1367,7 @@ namespace Team1P2.Tests
                 List<Blurb> queriedList = context.Blurbs.ToList();
                 queriedList = repo.FilterByCanSee(queriedList.AsQueryable<Blurb>(), curUser).ToList();
                 queriedList = repo.FilterByType(queriedList.AsQueryable<Blurb>(), filterMovies, filterBooks, filterGames, filterTV).ToList();
-                queriedList = repo.FilterByUser(queriedList.AsQueryable<Blurb>(), curUser, querySettings.IncludeSelf, querySettings.IncludeFollowering, querySettings.IncludeUnfollowed).ToList();
+                queriedList = repo.FilterByUser(queriedList.AsQueryable<Blurb>(), curUser, querySettings.IncludeSelf, querySettings.IncludeFollowing, querySettings.IncludeUnfollowed).ToList();
                 queriedList = repo.SortBlurbs(queriedList.AsQueryable<Blurb>(), querySettings.SortSetting).ToList();
 
                 //Act
@@ -1378,7 +1378,9 @@ namespace Team1P2.Tests
             }
         }
 
-
+        /// <summary>
+        /// it's a unit test
+        /// </summary>
         [Fact]
         public async void FullQuery_Pagination()
         {
@@ -1408,7 +1410,7 @@ namespace Team1P2.Tests
                 List<Blurb> queriedList = context.Blurbs.ToList();
                 queriedList = repo.FilterByCanSee(queriedList.AsQueryable<Blurb>(), curUser).ToList();
                 queriedList = repo.FilterByType(queriedList.AsQueryable<Blurb>(), true, true, true, true).ToList();
-                queriedList = repo.FilterByUser(queriedList.AsQueryable<Blurb>(), curUser, querySettings.IncludeSelf, querySettings.IncludeFollowering, querySettings.IncludeUnfollowed).ToList();
+                queriedList = repo.FilterByUser(queriedList.AsQueryable<Blurb>(), curUser, querySettings.IncludeSelf, querySettings.IncludeFollowing, querySettings.IncludeUnfollowed).ToList();
                 queriedList = repo.SortBlurbs(queriedList.AsQueryable<Blurb>(), querySettings.SortSetting).ToList();
                 queriedList = queriedList.SkipWhile(x => x.UserId != 2).ToList();
 

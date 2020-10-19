@@ -648,7 +648,7 @@ namespace Team1P2.Repo.Repository
     /// <returns></returns>
     public IQueryable<Blurb> FilterByType(IQueryable<Blurb> blurbs, bool includeMovies, bool includeBooks, bool includeGames, bool includeTV)
     {
-            blurbs = blurbs
+            blurbs = blurbs.Include(b => b.User).Include(b => b.Media)
                 .Where(b =>
                        (b.Media.Type == Models.Models.Enums.Type.Book ? includeBooks :
                        (b.Media.Type == Models.Models.Enums.Type.Movie ? includeMovies :
@@ -714,7 +714,7 @@ namespace Team1P2.Repo.Repository
     {
       var followingListIds = curUser.GetFollowingList().Select(f => f.UserId);
 
-      blurbs = blurbs.Where(b => b.UserId == curUser.UserId ||                                 //If the blurb is the current user's, or.....
+      blurbs = blurbs.Include(b => b.User).Include(b => b.Media).Where(b => b.UserId == curUser.UserId ||                                 //If the blurb is the current user's, or.....
           (b.Privacy == Privacy.Public ? true                                                  //if privacy is public, return true...
           : (followingListIds.Contains(b.UserId) && b.Privacy == Privacy.FollowersOnly ? true  //else if privacy is followers and user is a follower, return true...
           : false                                                                              //else return false
@@ -736,11 +736,11 @@ namespace Team1P2.Repo.Repository
     public IQueryable<Blurb> FilterByUser(IQueryable<Blurb> blurbs, User curUser, bool includeSelf, bool includeFollowing, bool includeUnfollowed)
     {
       var followingListIds = curUser.GetFollowingList().Select(f => f.UserId);
-      blurbs = blurbs
+      blurbs = blurbs.Include(b => b.User).Include(b => b.Media)
           .Where(b =>
-                 (includeFollowing ? followingListIds.Contains(b.UserId) : false)     //If the blurb is from someone you're following and the setting includes them, return true
-              || (includeUnfollowed ? !followingListIds.Contains(b.UserId) : false)   //If the blurb is from someone you're not following and the setting includes them, return true
-              || (includeSelf ? b.UserId == curUser.UserId : false));                 //If the blurb is from you and the settings include you, return true
+                 (includeFollowing && b.UserId != curUser.UserId ? followingListIds.Contains(b.UserId) : false)     //If the blurb is from someone you're following and the setting includes them, return true
+              || (includeUnfollowed && b.UserId != curUser.UserId ? !followingListIds.Contains(b.UserId) : false)   //If the blurb is from someone you're not following and the setting includes them, return true
+              || (includeSelf && b.UserId == curUser.UserId));                 //If the blurb is from you and the settings include you, return true
 
       return blurbs;
     }
@@ -759,7 +759,7 @@ namespace Team1P2.Repo.Repository
             var curUser = _context.Users.FirstOrDefault(u => u.UserId == userId);
       var queriedblurbs = FilterByCanSee(_context.Blurbs, curUser);          //Filters out the items the curUser doesn't have permissions to see
       queriedblurbs = FilterByType(queriedblurbs, querySettings.IncludeMovies, querySettings.IncludeBooks, querySettings.IncludeGames, querySettings.IncludeTV); //Filters by the media type
-      queriedblurbs = FilterByUser(queriedblurbs, curUser, querySettings.IncludeSelf, querySettings.IncludeFollowering, querySettings.IncludeUnfollowed); //Filters by the specified users
+      queriedblurbs = FilterByUser(queriedblurbs, curUser, querySettings.IncludeSelf, querySettings.IncludeFollowing, querySettings.IncludeUnfollowed); //Filters by the specified users
 
       count = (count <= 0 ? queriedblurbs.Count() : count);
 

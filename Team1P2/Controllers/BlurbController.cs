@@ -75,8 +75,8 @@ namespace Team1P2.Controllers
 
 
         [Produces("application/json")]
-        [HttpGet("fullquery/{userid}")]
-        public async Task<ActionResult<List<Blurb>>> fullquery(int userid, FullQueryObj obj)
+        [HttpPost("fullquery/{userid}")]
+        public async Task<ActionResult<List<Blurb>>> FullQuery(int userid, FullQueryObj obj)
         {
             return await _repository.FullQuery(userid, obj.Settings, obj.SinceId, obj.Span);
         }

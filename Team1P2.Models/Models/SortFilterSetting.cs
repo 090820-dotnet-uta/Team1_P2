@@ -11,15 +11,20 @@ namespace Team1P2.Models.Models
         public bool IncludeTV { get; set; }
         public bool IncludeGames { get; set; }
         public bool IncludeSelf { get; set; }
-        public bool IncludeFollowering { get; set; }
+        public bool IncludeFollowing { get; set; }
         public bool IncludeUnfollowed { get; set; }
 
+
+        public SortFilterSetting()
+        {
+
+        }
 
         public SortFilterSetting(SortSetting sortSetting, bool includeSelf, bool includeFollowing, bool includeUnfollowed, bool includeBooks, bool includeMovies, bool includeTV, bool includeGames)
         {
             SortSetting = sortSetting;;
             IncludeSelf = includeSelf;
-            IncludeFollowering = includeFollowing;
+            IncludeFollowing = includeFollowing;
             IncludeUnfollowed = includeUnfollowed;
             IncludeGames = includeGames;
             IncludeBooks = includeBooks;
@@ -39,7 +44,7 @@ namespace Team1P2.Models.Models
         {
             SortSetting = sortSetting;
             IncludeSelf = includeSelf;
-            IncludeFollowering = includeFollowing;
+            IncludeFollowing = includeFollowing;
             IncludeUnfollowed = includeUnfollowed;
             IncludeBooks = true;
             IncludeTV = true;
