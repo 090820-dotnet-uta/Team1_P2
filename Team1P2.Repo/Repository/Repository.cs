@@ -128,14 +128,24 @@ namespace Team1P2.Repo.Repository
     }
 
 
-    /// <summary>
-    /// Filters out all blurbs not attributed to the user
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    public List<Blurb> GetBlurbsByUserId(List<Blurb> blurbs, int userId)
+        /// <summary>
+        /// Gets all blurbs from the db as an IQueriable
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<Blurb> GetQueriableBlurbsList()
+        {
+            return _context.Blurbs.Include(b => b.Media).Include(b => b.User).Include(b => b.Notes);
+        }
+
+
+        /// <summary>
+        /// Filters out all blurbs not attributed to the user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public IQueryable<Blurb> GetBlurbsByUserId(int userId)
     {
-      return blurbs.Where(b => b.UserId == userId).ToList();
+      return _context.Blurbs.Where(b => b.UserId == userId);
     }
 
 
@@ -731,18 +741,20 @@ namespace Team1P2.Repo.Repository
     }
 
 
-    /// <summary>
-    /// Queries and sorts the entire blurb list based on the 'querySettings' settings. Pass a nmber less than 1 as sinceId if you want to start at the beginning.
-    /// Pass a number less than 1 as count if you want to get all items (or leave it empty), otherwise specify a number of items to get.
-    /// </summary>
-    /// <param name="context"></param>
-    /// <param name="curUser"></param>
-    /// <param name="querySettings"></param>
-    /// <returns></returns>
-    public async Task<List<Blurb>> FullQuery(int userId, SortFilterSetting querySettings, int sinceId = 0, int count = 0)
+        /// <summary>
+        /// Queries and sorts the entire blurb list based on the 'querySettings' settings. Pass a nmber less than 1 as sinceId if you want to start at the beginning.
+        /// Pass a number less than 1 as count if you want to get all items (or leave it empty), otherwise specify a number of items to get.
+        /// </summary>
+        /// <param name="blurbs"></param>
+        /// <param name="userId"></param>
+        /// <param name="querySettings"></param>
+        /// <param name="sinceId"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public async Task<List<Blurb>> FullQuery(IQueryable<Blurb> blurbs, int userId, SortFilterSetting querySettings, int sinceId = 0, int count = 0)
     {
-      var curUser = _context.Users.FirstOrDefault(u => u.UserId == userId);
-      var queriedblurbs = FilterByCanSee(_context.Blurbs, curUser);          //Filters out the items the curUser doesn't have permissions to see
+      var curUser = _context.Users.Include(u => u.FollowingEntries).FirstOrDefault(u => u.UserId == userId);
+      var queriedblurbs = FilterByCanSee(blurbs, curUser);          //Filters out the items the curUser doesn't have permissions to see
       queriedblurbs = FilterByType(queriedblurbs, querySettings.IncludeMovies, querySettings.IncludeBooks, querySettings.IncludeGames, querySettings.IncludeTV); //Filters by the media type
       queriedblurbs = FilterByUser(queriedblurbs, curUser, querySettings.IncludeSelf, querySettings.IncludeFollowing, querySettings.IncludeUnfollowed); //Filters by the specified users
 
