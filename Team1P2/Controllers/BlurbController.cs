@@ -36,8 +36,8 @@ namespace Team1P2.Controllers
     [HttpPost("query/user/{userId}/{byId}")]
     public async Task<ActionResult<List<Blurb>>> FindAllByUser(int userId, int byId, FullQueryObj obj)
     {
-            var blurbs = await _repository.FullQuery(userId, obj.Settings, obj.SinceId, obj.Span);
-      return  _repository.GetBlurbsByUserId(blurbs, byId);
+            var blurbsByUser = _repository.GetBlurbsByUserId(byId);
+      return await _repository.FullQuery(blurbsByUser, userId, obj.Settings, obj.SinceId, obj.Span);
     }
 
     [Produces("application/json")]
@@ -80,8 +80,8 @@ namespace Team1P2.Controllers
         [HttpPost("fullquery/{userid}")]
         public async Task<ActionResult<List<Blurb>>> FullQuery(int userid, FullQueryObj obj)
         {
-            return await _repository.FullQuery(userid, obj.Settings, obj.SinceId, obj.Span);
+            var blurbs = _repository.GetQueriableBlurbsList();
+            return await _repository.FullQuery(blurbs, userid, obj.Settings, obj.SinceId, obj.Span);
         }
-
     }
 }

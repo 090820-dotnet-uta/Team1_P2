@@ -1024,7 +1024,7 @@ namespace Team1P2.Tests
                 blurbs.Add(blurb2);
 
                 //Act
-                var blurbs2 = repo.GetBlurbsByUserId(context.Blurbs.ToList(), user.UserId);
+                var blurbs2 = repo.GetBlurbsByUserId(user.UserId);
 
                 //Assert
                 Assert.Equal(blurbs, blurbs2);
@@ -1371,7 +1371,7 @@ namespace Team1P2.Tests
                 queriedList = repo.SortBlurbs(queriedList.AsQueryable<Blurb>(), querySettings.SortSetting).ToList();
 
                 //Act
-                List<Blurb> queriedBlurbsTest = await repo.FullQuery(curUser.UserId, querySettings);
+                List<Blurb> queriedBlurbsTest = await repo.FullQuery(context.Blurbs, curUser.UserId, querySettings);
 
                 //Assert
                 Assert.Equal(queriedList, queriedBlurbsTest);
@@ -1415,7 +1415,7 @@ namespace Team1P2.Tests
                 queriedList = queriedList.SkipWhile(x => x.UserId != 2).Skip(1).ToList();
 
                 //Act
-                List<Blurb> queriedBlurbsTest = await repo.FullQuery(curUser.UserId, querySettings, 2);
+                List<Blurb> queriedBlurbsTest = await repo.FullQuery(context.Blurbs, curUser.UserId, querySettings, 2);
 
                 //Assert
                 Assert.Equal(queriedList, queriedBlurbsTest);
