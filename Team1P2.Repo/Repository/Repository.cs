@@ -296,6 +296,11 @@ namespace Team1P2.Repo.Repository
     /// <param name="user"></param>
     public async Task<User> AddUserToDbAsync(User user)
     {
+            var userInDb = await _context.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
+            if (userInDb != null)
+            {
+                return new User();
+            }
       _context.Add(user);
       _context.SaveChanges();
       return await _context.Users.Include(x => x.FollowingEntries).FirstOrDefaultAsync(u => u == user);
