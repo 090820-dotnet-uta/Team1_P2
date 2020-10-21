@@ -563,6 +563,31 @@ namespace Team1P2.Tests
 
 
         [Fact]
+        public async void AddUserToDb_SameUsername()
+        {
+            var options = new DbContextOptionsBuilder<BlurbDbContext>()
+                .UseInMemoryDatabase(databaseName: "AddUser_sameUsername")
+                .Options;
+
+            using (var context = new BlurbDbContext(options))
+            {
+                Repository repo = new Repository(context);
+
+                //Arrange
+                User user = new User("skywalker13", "password13");
+                user = await repo.AddUserToDbAsync(user);
+                User user2 = new User("skywalker13", "password13");
+
+                //Act
+                user2 = await repo.AddUserToDbAsync(user2);
+
+                //Assert
+                Assert.Null(user2.Username);
+            }
+        }
+
+
+        [Fact]
         public async void AddMediaToDb_NewMedia()
         {
             var options = new DbContextOptionsBuilder<BlurbDbContext>()
