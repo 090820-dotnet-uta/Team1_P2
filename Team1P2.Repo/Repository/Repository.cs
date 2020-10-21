@@ -134,7 +134,7 @@ namespace Team1P2.Repo.Repository
         /// <returns></returns>
         public IQueryable<Blurb> GetQueriableBlurbsList()
         {
-            return _context.Blurbs.Include(b => b.Media).Include(b => b.User).Include(b => b.Notes);
+            return _context.Blurbs.Include(b => b.Media).Include(b => b.User);
         }
 
 
@@ -145,7 +145,7 @@ namespace Team1P2.Repo.Repository
         /// <returns></returns>
         public IQueryable<Blurb> GetBlurbsByUserId(int userId)
     {
-      return _context.Blurbs.Where(b => b.UserId == userId);
+      return _context.Blurbs.Include(b => b.Media).Include(b => b.User).Where(b => b.UserId == userId);
     }
 
 
@@ -714,11 +714,14 @@ namespace Team1P2.Repo.Repository
     {
            var followingListIds = _context.FollowingEntries.Where(f => f.UserId == curUser.UserId).Select(f => f.FollowedUserId);
 
-      blurbs = blurbs.Include(b => b.User).Include(b => b.Media).Where(b => b.UserId == curUser.UserId ||                                 //If the blurb is the current user's, or.....
-          (b.Privacy == Privacy.Public ? true                                                  //if privacy is public, return true...
-          : (followingListIds.Contains(b.UserId) && b.Privacy == Privacy.FollowersOnly ? true  //else if privacy is followers and user is a follower, return true...
-          : false                                                                              //else return false
-          )));
+      blurbs = blurbs
+                .Include(b => b.User)
+                .Include(b => b.Media)
+                .Where(b => b.UserId == curUser.UserId ||                                                    //If the blurb is the current user's, or.....
+                        (b.Privacy == Privacy.Public ? true                                                  //if privacy is public, return true...
+                        : (followingListIds.Contains(b.UserId) && b.Privacy == Privacy.FollowersOnly ? true  //else if privacy is followers and user is a follower, return true...
+                        : false                                                                              //else return false
+                        )));
 
       return blurbs;
     }
