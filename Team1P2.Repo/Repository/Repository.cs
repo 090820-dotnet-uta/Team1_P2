@@ -712,7 +712,7 @@ namespace Team1P2.Repo.Repository
     /// <returns></returns>
     public IQueryable<Blurb> FilterByCanSee(IQueryable<Blurb> blurbs, User curUser)
     {
-      var followingListIds = curUser.GetFollowingList().Select(f => f.UserId);
+           var followingListIds = _context.FollowingEntries.Where(f => f.UserId == curUser.UserId).Select(f => f.FollowedUserId);
 
       blurbs = blurbs.Include(b => b.User).Include(b => b.Media).Where(b => b.UserId == curUser.UserId ||                                 //If the blurb is the current user's, or.....
           (b.Privacy == Privacy.Public ? true                                                  //if privacy is public, return true...
